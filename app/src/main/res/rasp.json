@@ -1,0 +1,683 @@
+{
+  "time": [
+    "08:00 - 09:35",
+    "09:45 - 11:20",
+    "11:30 - 13:05",
+    "13:30 - 15:05",
+    "15:15 - 16:50",
+    "17:00 - 18:35",
+    "18:45 - 20:15",
+    "20:25 - 21:55"
+  ],
+  "weeks": [
+    {
+      "weekNumber": 1,
+      "days": [
+        {
+          "dayOfWeek": 1,
+          "couple": [
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 2,
+                "discipline": "Системное программирование",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Николай",
+                  "middle_name": "Александрович",
+                  "last_name": "Ивлиев"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Теория вероятностей и математическая статистика",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Сергей",
+                  "middle_name": "Яковлевич",
+                  "last_name": "Шатских"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 5,
+                "discipline": "Физическая культура",
+                "type": "Лекционная нагрузка",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 2,
+          "couple": [
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 1,
+                "discipline": "Системное программирование",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Николай",
+                  "middle_name": "Александрович",
+                  "last_name": "Ивлиев"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 2,
+                "discipline": "Теория вероятностей и математическая статистика",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Дмитрий",
+                  "middle_name": "Александрович",
+                  "last_name": "Быков"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 4,
+                "discipline": "Физика",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Олег",
+                  "middle_name": "Васильевич",
+                  "last_name": "Филонин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 3,
+          "couple": [
+            null,
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Математическая логика и теория алгоритмов",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Владимир",
+                  "middle_name": "Викторович",
+                  "last_name": "Тишин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 4,
+                "discipline": "Физика",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Олег",
+                  "middle_name": "Васильевич",
+                  "last_name": "Филонин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 5,
+                "discipline": "Безопасность жизнедеятельности",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Алексей",
+                  "middle_name": "Владимирович",
+                  "last_name": "Терентьев"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 6,
+                "discipline": "Элективные курсы по физической культуре",
+                "type": "Лекционная нагрузка",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 4,
+          "couple": [
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 1,
+                "discipline": "Операционные системы",
+                "type": "Лабораторные работы",
+                "teacher": {},
+                "subgroups_info": "1 подгр. 1,7,11,15 2 подгр. 3,9,13,17 "
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 2,
+                "discipline": "Операционные системы",
+                "type": "Лабораторные работы",
+                "teacher": {},
+                "subgroups_info": "1 подгр. 1,7,11,15 2 подгр. 3,9,13,17 "
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Теория функций комплексного переменного",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Юрий",
+                  "middle_name": "Николаевич",
+                  "last_name": "Кузьмин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 4,
+                "discipline": "Системное программирование",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Владимир",
+                  "middle_name": "Владимирович",
+                  "last_name": "Подлипнов"
+                },
+                "subgroups_info": "1 подгр. 3,9,13,17 2 подгр. 1,7,11,15 "
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 5,
+                "discipline": "Системное программирование",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Владимир",
+                  "middle_name": "Владимирович",
+                  "last_name": "Подлипнов"
+                },
+                "subgroups_info": "1 подгр. 3,9,13,17 2 подгр. 1,7,11,15 "
+              }
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 5,
+          "couple": [
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 1,
+                "discipline": "Теория функций комплексного переменного",
+                "type": "Лекционная нагрузка",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 2,
+                "discipline": "Теория функций комплексного переменного",
+                "type": "Лекционная нагрузка",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Математическая логика и теория алгоритмов",
+                "type": "Лабораторные работы",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 4,
+                "discipline": "Физика",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Олег",
+                  "middle_name": "Васильевич",
+                  "last_name": "Филонин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 6,
+          "couple": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
+    },
+    {
+      "weekNumber": 2,
+      "days": [
+        {
+          "dayOfWeek": 1,
+          "couple": [
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 2,
+                "discipline": "Теория вероятностей и математическая статистика",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Сергей",
+                  "middle_name": "Яковлевич",
+                  "last_name": "Шатских"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Операционные системы",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Дмитрий",
+                  "middle_name": "Андреевич",
+                  "last_name": "Савельев"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 5,
+                "discipline": "Физическая культура",
+                "type": "Лекционная нагрузка",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 2,
+          "couple": [
+            null,
+            null,
+            {
+              "by_subgroups": true,
+              "first_subgroup": {
+                "number": 3,
+                "discipline": "Физика",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Ефим",
+                  "middle_name": "Яковлевич",
+                  "last_name": "Коган"
+                },
+                "subgroups_info": ""
+              },
+              "second_subgroup": {
+                "number": 3,
+                "discipline": "Физика",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Александр",
+                  "middle_name": "Ианнуарьевич",
+                  "last_name": "Моисеев"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": true,
+              "first_subgroup": {
+                "number": 4,
+                "discipline": "Физика",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Ефим",
+                  "middle_name": "Яковлевич",
+                  "last_name": "Коган"
+                },
+                "subgroups_info": ""
+              },
+              "second_subgroup": {
+                "number": 4,
+                "discipline": "Физика",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Александр",
+                  "middle_name": "Ианнуарьевич",
+                  "last_name": "Моисеев"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 5,
+                "discipline": "Безопасность жизнедеятельности",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Алексей",
+                  "middle_name": "Владимирович",
+                  "last_name": "Терентьев"
+                },
+                "subgroups_info": "1 подгр. 2,6,10,14 2 подгр. 4,8,12,16 "
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 6,
+                "discipline": "Безопасность жизнедеятельности",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Алексей",
+                  "middle_name": "Владимирович",
+                  "last_name": "Терентьев"
+                },
+                "subgroups_info": "1 подгр. 2,6,10,14 2 подгр. 4,8,12,16 "
+              }
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 3,
+          "couple": [
+            null,
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Теория функций комплексного переменного",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Юрий",
+                  "middle_name": "Николаевич",
+                  "last_name": "Кузьмин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 4,
+                "discipline": "Физика",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Олег",
+                  "middle_name": "Васильевич",
+                  "last_name": "Филонин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 5,
+                "discipline": "Математическая логика и теория алгоритмов",
+                "type": "Лекционная нагрузка",
+                "teacher": {
+                  "first_name": "Владимир",
+                  "middle_name": "Викторович",
+                  "last_name": "Тишин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 6,
+                "discipline": "Физическая культура",
+                "type": "Лекционная нагрузка",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 4,
+          "couple": [
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 1,
+                "discipline": "Военная подготовка",
+                "type": "Лабораторные работы",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 2,
+                "discipline": "Военная подготовка",
+                "type": "Лабораторные работы",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Военная подготовка",
+                "type": "Лекционная нагрузка",
+                "teacher": {},
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 5,
+          "couple": [
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 2,
+                "discipline": "Математическая логика и теория алгоритмов",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Павел",
+                  "middle_name": "Сергеевич",
+                  "last_name": "Богданов"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 4,
+                "discipline": "Теория вероятностей и математическая статистика",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Дмитрий",
+                  "middle_name": "Александрович",
+                  "last_name": "Быков"
+                },
+                "subgroups_info": ""
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 5,
+                "discipline": "Операционные системы",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Дмитрий",
+                  "middle_name": "Андреевич",
+                  "last_name": "Савельев"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dayOfWeek": 6,
+          "couple": [
+            {
+              "by_subgroups": true,
+              "first_subgroup": {
+                "number": 1,
+                "discipline": "Операционные системы",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Дмитрий",
+                  "middle_name": "Андреевич",
+                  "last_name": "Савельев"
+                },
+                "subgroups_info": "1 подгр. 2,6,10,14 2 подгр. 4,8,12,16 "
+              },
+              "second_subgroup": {
+                "number": 1,
+                "discipline": "Системное программирование",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Владимир",
+                  "middle_name": "Владимирович",
+                  "last_name": "Подлипнов"
+                },
+                "subgroups_info": "1 подгр. 4,8,12,16 2 подгр. 2,6,10,14 "
+              }
+            },
+            {
+              "by_subgroups": true,
+              "first_subgroup": {
+                "number": 2,
+                "discipline": "Операционные системы",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Дмитрий",
+                  "middle_name": "Андреевич",
+                  "last_name": "Савельев"
+                },
+                "subgroups_info": "1 подгр. 2,6,10,14 2 подгр. 4,8,12,16 "
+              },
+              "second_subgroup": {
+                "number": 2,
+                "discipline": "Системное программирование",
+                "type": "Лабораторные работы",
+                "teacher": {
+                  "first_name": "Владимир",
+                  "middle_name": "Владимирович",
+                  "last_name": "Подлипнов"
+                },
+                "subgroups_info": "1 подгр. 4,8,12,16 2 подгр. 2,6,10,14 "
+              }
+            },
+            {
+              "by_subgroups": false,
+              "all_group": {
+                "number": 3,
+                "discipline": "Физика",
+                "type": "Практические занятия",
+                "teacher": {
+                  "first_name": "Олег",
+                  "middle_name": "Васильевич",
+                  "last_name": "Филонин"
+                },
+                "subgroups_info": ""
+              }
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -6,4 +6,37 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="text_table">Расписание</string>
+    <string name="text_notice">Уведомления</string>
+    <string name="text_account">Аккаунт</string>
+    <string name="user_name">Фокин Александр</string>
+    <string name="user_money">2000</string>
+    <string name="user_group">6209</string>
+    <string name="Phone">+79276902246</string>
+    <string name="Email">fokinsasha2014@yandex.ru</string>
+    <string name="Vk">https://vk.com/sanekfokin</string>
+    <string name="GitHub">https://github.com/alexFox63</string>
+    <string name="note_title_hint">Enter a title for the note.</string>
+    <string name="note_text_hint">Enter text content for the note.</string>
+    <string name="note_title_label">Title</string>
+    <string name="note_text_label">Text</string>
+    <string name="note_details_label">Details</string>
+    <string name="note_complete_label">Complete?</string>
+    <string name="notes_title">Notes</string>
+    <string name="date_picker_title">Date of Note:</string>
+    <string name="note_media">Media</string>
+    <string name="note_play">Play</string>
+    <string name="note_stop">Stop</string>
+    <string name="note_pause">Pause</string>
+    <string name="note_record">Record</string>
+    <string name="error_no_mic">No mic found</string>
+    <string name="error_no_camera">No camera found</string>
+    <string name="error_saving">Error while saving</string>
+    <string name="new_note">New Note</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle">Remember Everything</string>
+    <string name="delete_note">Delete</string>
+    <string name="notes_deleted">Note(s) Deleted</string>
+    <string name="capture">Capture</string>
 </resources>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pagerTabStrip">
+        <TableLayout
+            android:id="@+id/tablelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/FirstDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="330px"
+                    android:gravity="center"
+                    android:text="text"
+                    android:textSize="50px" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Время"
+                    android:textSize="50px"/>
+                <TextView
+                    android:id="@+id/Lessons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Предметы"
+                    android:textSize="50px" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/FirstTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Первая пара"
+                    android:textSize="50px" />
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout2"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/FirstLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/FirstAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/SecondTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Вторая пара"
+                    android:textSize="50px"
+                    />
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout3"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/SecondLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/SecondAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/ThirdTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Третья пара"
+                    android:textSize="50px"
+                    />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout4"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/ThirdLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/ThirdAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/FourthTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Четвертая пара"
+                    android:textSize="50px"
+                    />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout5"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/FourthLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/FourthAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/FifthTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Пятая пара"
+                    android:textSize="50px"
+                    />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout6"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/FifthLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/FifthAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/SixthTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Шестая пара"
+                    android:textSize="50px"
+                    />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout7"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/SixthLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/SixthAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/SeventhTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Седьмая пара"
+                    android:textSize="50px"
+                    />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout8"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/SeventhLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/SevenththAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/EighthTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Восьмая пара"
+                    android:textSize="50px"
+                    />
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/LinearLayout9"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TextView
+                        android:id="@+id/EighthLesson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Какая то пара"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/EighthAudience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:text="Кабинет"
+                        android:textSize="20px" />
+                </LinearLayout>
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

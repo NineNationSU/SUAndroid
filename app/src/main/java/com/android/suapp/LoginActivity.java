@@ -1,5 +1,7 @@
 package com.android.suapp;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -45,8 +47,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+                Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
+                startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -74,6 +76,16 @@ public class LoginActivity extends AppCompatActivity {
 
         // TODO: Implement your own authentication logic here.
 
+        if(email.equals("fokinsasha2014@yandex.ru") && password.equals("12345")){
+            Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
+
+            // Выполняем переход на другой экран:
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+        } else{
+                Toast.makeText(getApplicationContext(), "Неправильные данные!",Toast.LENGTH_SHORT).show();
+        }
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -83,20 +95,11 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 }, 3000);
+
+
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -115,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setEnabled(true);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
     public boolean validate() {
         boolean valid = true;
 

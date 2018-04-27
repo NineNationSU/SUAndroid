@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBase">#FFFF</color>
+    <color name="black">#000</color>
+    <color name="money">#0000FF</color>
+    <color name="red">#FF0000</color>
 </resources>

@@ -21,7 +21,7 @@
             android:src="@drawable/logo" />
 
         <EditText
-            android:id="@+id/signup_name"
+            android:id="@+id/sign_up_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -32,7 +32,7 @@
             android:id="@+id/signup_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/signup_name"
+            android:layout_alignTop="@id/sign_up_name"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:hint="Email" />
@@ -69,7 +69,7 @@
             android:text="Зарегистрироваться" />
 
         <TextView
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_login_first"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="18dp"
