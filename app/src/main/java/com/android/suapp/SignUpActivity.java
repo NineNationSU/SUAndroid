@@ -17,16 +17,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        _loginlink.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // Start the Login activity
-                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivityForResult(intent, 1);
-                finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
     }
 }

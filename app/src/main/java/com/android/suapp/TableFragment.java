@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.suapp.suapp.RaspController;
 import com.android.suapp.suapp.sdk.LKUtility;
 import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.timetable.TimeTable;
@@ -41,6 +40,7 @@ public class TableFragment extends Fragment {
         //new RaspController();
         return fragment;
     }
+    TimeTable t;
 
     public TableFragment(){}
 
@@ -62,20 +62,26 @@ public class TableFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final String[] s = {""};
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        TimeTable t;
-                        try {
-                            t = new Gson().fromJson(
-                                    LKUtility.getTimeTable(new Student().setId(1), "1"), TimeTable.class);
-                            m.setText(t.getTime().get(0));
-                        } catch (URISyntaxException | IOException e) {
-                            e.printStackTrace();
-                            m.setText("Ошибка");
+                if (m.getText().equals("Первая пара")){
+                    m.setText("ща загружу");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                t = new Gson().fromJson(
+                                        LKUtility.getTimeTable(new Student().setId(1), "1"), TimeTable.class);
+                            } catch (URISyntaxException | IOException e) {
+                                e.printStackTrace();
+                            }
                         }
+                    }).start();
+                }else{
+                    if (t != null){
+                        m.setText(t.getTime().get(0).toString());
                     }
-                }, 0);
+                }
+
             }
         });
 
