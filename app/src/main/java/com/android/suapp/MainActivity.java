@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                Fragment selectedFragment = null;
                switch (item.getItemId()) {
                    case R.id.nav_table:
-                       selectedFragment = TableFragment.newInstance();
+                       selectedFragment = new TableFragment();
                        break;
                    case R.id.nav_user:
                        selectedFragment = UserFragment.newInstance();
@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
                        break;
                    case R.id.nav_notes:
                        selectedFragment = NotesFragment.newInstance();
+                       break;
+                   default:
+                       selectedFragment = UserFragment.newInstance();
                }
                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                transaction.replace(R.id.fragment_container, selectedFragment);

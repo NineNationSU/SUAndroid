@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
-
+    compile 'com.github.ceryle:SegmentedButton:v1.0'
 }
 
 

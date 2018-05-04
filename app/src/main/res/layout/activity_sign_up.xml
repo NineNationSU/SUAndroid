@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar" />
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/Sign_Up_Lay_Img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:paddingTop="56dp">
+        android:paddingTop="10dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -20,65 +31,221 @@
             android:layout_marginBottom="24dp"
             android:src="@drawable/logo" />
 
-        <EditText
-            android:id="@+id/sign_up_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Имя" />
 
-        <EditText
-            android:id="@+id/signup_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/sign_up_name"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:hint="Email" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/lay_log_pass"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/Sign_Up_Lay_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/sign_up_login"
+                        android:background="@drawable/border"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Логин"
+                        android:inputType="textPersonName" />
+                    <android.support.v4.widget.Space
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                    <co.ceryle.segmentedbutton.SegmentedButtonGroup
+                        android:id="@+id/segmentButtonGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        app:sbg_animateSelector="bounce"
+                        app:sbg_animateSelectorDuration="350"
+                        app:sbg_backgroundColor="#EEEEEE"
+                        android:background="@drawable/border"
+                        app:sbg_dividerColor="@color/black"
+                        app:sbg_dividerPadding="1dp"
+                        app:sbg_dividerSize="1dp"
+                        app:sbg_position="1"
+                        app:sbg_radius="1dp"
+                        app:sbg_ripple="true"
+                        app:sbg_rippleColor="@color/black"
+                        app:sbg_selectorColor="@color/black"
+                        app:sbg_selectorTextColor="@color/colorBase"
+                        app:sbg_shadow="true"
+                        app:sbg_shadowElevation="1dp"
+                        app:sbg_shadowMargin="4dp">
 
-        <EditText
-            android:id="@+id/signup_pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Пароль"
-            android:inputType="textPassword" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Создавая аккаунт, вы принимаете" />
-
-        <TextView
-            android:id="@+id/link_acceptdeclar"
-            android:layout_width="fill_parent"
-            android:layout_height="34dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
-            android:text="Пользовательское соглашение"
-            android:textSize="16dip" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Зарегистрироваться" />
-
-        <TextView
-            android:id="@+id/btn_login_first"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="Или войти" />
+                        <Button
+                            android:id="@+id/sex_male"
+                            android:textSize="10sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:text="Муж" />
+                        <Button
+                            android:id="@+id/sex_female"
+                            android:textSize="10sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:text="Жен" />
 
 
+                    </co.ceryle.segmentedbutton.SegmentedButtonGroup>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/sign_up_pass"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/border"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Пароль"
+                        android:inputType="textPassword" />
+                    <android.support.v4.widget.Space
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                    <TextView
+                        android:id="@+id/picked_date"
+                        android:layout_marginTop="7dp"
+                        android:background="@drawable/border"
+                        android:hint="Дата рождения"
+                        android:gravity="center"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:textSize="10sp"
+                        android:inputType="date" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_name_phone"
+                android:orientation="vertical"
+                android:layout_below="@id/lay_log_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/sign_up_last_name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/border"
+                    android:ems="10"
+                    android:hint="Фамилия" />
+                <EditText
+                    android:id="@+id/sign_up_name"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Имя"
+                    />
+                <EditText
+                    android:id="@+id/sign_up_middle_name"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Отчество"
+                    android:inputType="textPassword" />
+                <EditText
+                    android:id="@+id/sign_up_phone"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Номер телефона"
+                    />
+                <EditText
+                    android:id="@+id/sign_up_fac"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Факультет"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/proff"
+                android:layout_below="@id/lay_name_phone"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp">
+                <co.ceryle.segmentedbutton.SegmentedButtonGroup
+                    android:id="@+id/segmentButtonGroup2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sbg_animateSelector="bounce"
+                    app:sbg_animateSelectorDuration="350"
+                    app:sbg_backgroundColor="#EEEEEE"
+                    android:background="@drawable/border"
+                    app:sbg_dividerColor="@color/black"
+                    app:sbg_dividerPadding="1dp"
+                    app:sbg_dividerSize="1dp"
+                    app:sbg_position="1"
+                    app:sbg_radius="1dp"
+                    app:sbg_ripple="true"
+                    app:sbg_rippleColor="@color/black"
+                    app:sbg_selectorColor="@color/black"
+                    app:sbg_selectorTextColor="@color/colorBase"
+                    app:sbg_shadow="true"
+                    app:sbg_shadowElevation="1dp"
+                    app:sbg_shadowMargin="4dp">
+
+                    <Button
+                        android:id="@+id/student"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Студент" />
+                    <Button
+                        android:id="@+id/star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Староста" />
+                    <Button
+                        android:id="@+id/proforg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Профорг" />
+
+
+
+                </co.ceryle.segmentedbutton.SegmentedButtonGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:layout_below="@id/proff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/button_sign_up"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:text="Зарегистрироваться" />
+
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
-
+    </RelativeLayout>
 </ScrollView>
+</LinearLayout>
