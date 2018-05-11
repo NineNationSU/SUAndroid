@@ -40,4 +40,5 @@
     <string name="notes_deleted">Note(s) Deleted</string>
     <string name="capture">Capture</string>
     <string name="sign_up">Регистрация</string>
+    <string name="sign_up_login"></string>
 </resources>

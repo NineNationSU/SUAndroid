@@ -1,5 +1,7 @@
 package com.android.suapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +24,17 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    public static SharedPreferences settings;
+    public static final String APP_PREFERENCES = "log_pass_login";
+    public static final String APP_PREFERENCES_LOG = "Login";
+    public static final String APP_PREFERENCES_PASS = "Password";
+
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.btn_login) Button _loginButton;
     @BindView(R.id.link_signup) TextView _signupLink;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
 
             // Выполняем переход на другой экран:
-            Intent intent = new Intent(this,MainActivity.class);
+            Intent intent = new Intent(this,MenuActivity.class);
             startActivity(intent);
         } else{
                 Toast.makeText(getApplicationContext(), "Неправильные данные!",Toast.LENGTH_SHORT).show();
@@ -95,6 +103,11 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 }, 3000);
+        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(APP_PREFERENCES_LOG, email);
+        editor.putString(APP_PREFERENCES_PASS, password);
+        editor.apply();
 
 
     }
@@ -103,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Disable going back to the MainActivity
+        // Disable going back to the MenuActivity
         moveTaskToBack(true);
     }
 

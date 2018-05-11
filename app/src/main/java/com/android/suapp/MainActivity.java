@@ -1,51 +1,40 @@
 package com.android.suapp;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
+import static com.android.suapp.LoginActivity.APP_PREFERENCES;
+
+/**
+ * Created by fokin on 09.05.2018.
+ */
 
 public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        SharedPreferences sp = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        boolean hasVisited = sp.getBoolean("hasVisited", false);
+        if(!hasVisited) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            SharedPreferences.Editor e = sp.edit();
+            e.putBoolean("hasVisited", true);
+            e.commit();
+        }
+        else{
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
 
-
-   @Override
-   protected void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_main);
-
-       BottomNavigationView mBottomNavigationItemView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-       mBottomNavigationItemView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-           @Override
-           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               Fragment selectedFragment = null;
-               switch (item.getItemId()) {
-                   case R.id.nav_table:
-                       selectedFragment = new TableFragment();
-                       break;
-                   case R.id.nav_user:
-                       selectedFragment = UserFragment.newInstance();
-                       break;
-                   case R.id.nav_notice:
-                       selectedFragment = NotificateFragment.newInstance();
-                       break;
-                   case R.id.nav_notes:
-                       selectedFragment = NotesFragment.newInstance();
-                       break;
-                   default:
-                       selectedFragment = UserFragment.newInstance();
-               }
-               FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-               transaction.replace(R.id.fragment_container, selectedFragment);
-               transaction.commit();
-               return true;
-           }
-       });
-
-
-   }
+    }
 }

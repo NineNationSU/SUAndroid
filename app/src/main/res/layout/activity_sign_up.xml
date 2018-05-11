@@ -49,7 +49,7 @@
                         android:id="@+id/sign_up_login"
                         android:background="@drawable/border"
                         android:layout_width="200dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:ems="10"
                         android:hint="Логин"
                         android:inputType="textPersonName" />
@@ -105,7 +105,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/border"
                         android:layout_width="200dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:ems="10"
                         android:hint="Пароль"
                         android:inputType="textPassword" />
@@ -119,7 +119,7 @@
                         android:hint="Дата рождения"
                         android:gravity="center"
                         android:layout_width="100dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:textSize="10sp"
                         android:inputType="date" />
 
@@ -134,54 +134,19 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/sign_up_last_name"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:background="@drawable/border"
-                    android:ems="10"
-                    android:hint="Фамилия" />
-                <EditText
-                    android:id="@+id/sign_up_name"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/border"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Имя"
-                    />
-                <EditText
-                    android:id="@+id/sign_up_middle_name"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/border"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Отчество"
-                    android:inputType="textPassword" />
-                <EditText
                     android:id="@+id/sign_up_phone"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/border"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:ems="10"
                     android:hint="Номер телефона"
-                    />
-                <EditText
-                    android:id="@+id/sign_up_fac"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/border"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Факультет"
                     />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/proff"
                 android:layout_below="@id/lay_name_phone"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp">
                 <co.ceryle.segmentedbutton.SegmentedButtonGroup
@@ -223,6 +188,13 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:text="Профорг" />
+                    <Button
+                        android:id="@+id/face"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="Лицо" />
+
 
 
 
@@ -234,7 +206,7 @@
                 android:layout_below="@id/proff"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:orientation="horizontal">
                 <Button
                     android:id="@+id/button_sign_up"
