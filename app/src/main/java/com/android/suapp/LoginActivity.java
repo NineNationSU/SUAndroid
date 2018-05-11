@@ -84,10 +84,16 @@ public class LoginActivity extends AppCompatActivity {
 
         // TODO: Implement your own authentication logic here.
 
-        if(email.equals("fokinsasha2014@yandex.ru") && password.equals("12345")){
+        if(email.equals("admin@ya.ru") && password.equals("admin")){
             Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
 
             // Выполняем переход на другой экран:
+            settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(APP_PREFERENCES_LOG, email);
+            editor.putString(APP_PREFERENCES_PASS, password);
+            editor.apply();
+
             Intent intent = new Intent(this,MenuActivity.class);
             startActivity(intent);
         } else{
@@ -103,11 +109,6 @@ public class LoginActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 }, 3000);
-        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(APP_PREFERENCES_LOG, email);
-        editor.putString(APP_PREFERENCES_PASS, password);
-        editor.apply();
 
 
     }
@@ -121,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
+        settings.edit().putBoolean("FirstRun", false).apply();
         _loginButton.setEnabled(true);
         finish();
     }

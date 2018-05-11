@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.suapp.suapp.sdk.RegistrationUtility;
 import com.android.suapp.suapp.server.database.objects.Student;
@@ -112,9 +113,11 @@ public class SignUpActivity extends AppCompatActivity {
     private void SignUp() {
 
         student = new Student();
-        token = login.getText().toString()+password.getText().toString();
-        token = DigestUtils.md5Hex(token);
-        System.out.print(token);
+        //token = login.getText().toString()+password.getText().toString();
+        //token = DigestUtils.md5Hex(token);
+        //System.out.print(token);
+        student.setLogin(login.getText().toString());
+        student.setPassword(password.getText().toString());
         student.setPhoneNumber(phoneNumber.getText().toString());
 
 
@@ -165,32 +168,50 @@ public class SignUpActivity extends AppCompatActivity {
                 String answer = null;
                 OKResponse ok;
                 ErrorResponse error;
+                final String[] message = {"Что-то пошло не так..."};
                 try {
                     answer = RegistrationUtility.registerANewStudent(student);
                 } catch (URISyntaxException | IOException e) {
+                    System.out.println("err");
+                    message[0] = "косяк запроса";
                     // тут формируем сообщение пользователю
                 }
                 if (answer != null){
                     try{
                         ok = new Gson().fromJson(answer, OKResponse.class);
+                        message[0] = "ok";
+                        if (answer.contains("error"))
+                            throw new Exception();
                         // тут формируем сообщение пользователю
                     }catch (Exception e){
                         try{
                             error = new Gson().fromJson(answer, ErrorResponse.class);
+                            message[0] = error.getMessage();
+
                             // тут формируем сообщение пользователю
                         }catch (Exception ex){
+                            message[0] = "Fatal Error";
+                            System.out.println("err");
+
                             // тут формируем сообщение пользователю
                         }
                     }
                 }
-                h.post(new Runnable() {
+                h.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // тут передаем сообщение пользователю
+                        if(!message[0].equals("")){
+                            Toast.makeText(getApplicationContext(), message[0], Toast.LENGTH_SHORT).show(); // тут передаем сообщение пользователю
+                        }
+                        else{
+                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
                     }
-                });
+                }, 300);
             }
         }).start();
+
 
 
 

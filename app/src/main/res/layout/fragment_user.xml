@@ -51,7 +51,7 @@
         android:layout_marginTop="15dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_settings"/>
+        android:src="@drawable/ic_exit"/>
 </RelativeLayout>
 
 <LinearLayout

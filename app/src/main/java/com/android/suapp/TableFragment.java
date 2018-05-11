@@ -1,15 +1,8 @@
 package com.android.suapp;
 
-import android.app.Activity;
 import android.os.Handler;
-import android.os.Message;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,16 +17,10 @@ import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.timetable.Couple;
 import com.android.suapp.suapp.server.timetable.TimeTable;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Date;
-
-import  android.content.Context;
 
 
 /**
@@ -54,7 +41,7 @@ public class TableFragment extends Fragment{
     /**
      * Преобразует названия предметов
      */
-    private String azaza(String str){
+    private String toSimpleName(String str){
         StringBuilder answer = new StringBuilder();
         if (str.length() > 8){
             String[] array = str.split(" ");
@@ -110,7 +97,7 @@ public class TableFragment extends Fragment{
                                         if (couple.getBySubgroups()){
                                             try {
                                                 String s = couple.getFirstSubgroup().getDiscipline();
-                                                s = azaza(s);
+                                                s = toSimpleName(s);
                                                 s += "    ";
                                                 coupleName.setText(s);
                                             } catch (IllegalObjectStateException ignored) {}
@@ -118,7 +105,7 @@ public class TableFragment extends Fragment{
                                         }else {
                                             try {
                                                 String s = couple.getAllGroup().getDiscipline();
-                                                s = azaza(s);
+                                                s = toSimpleName(s);
                                                 s += "    ";
                                                 coupleName.setText(s);
                                             } catch (IllegalObjectStateException ignored) {}

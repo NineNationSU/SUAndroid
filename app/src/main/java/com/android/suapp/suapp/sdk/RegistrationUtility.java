@@ -30,7 +30,11 @@ public abstract class RegistrationUtility {
         params.append("group_manager=").append(getInteger(student.isGroupManager())).append('&');
         params.append("group_president=").append(getInteger(student.isGroupPresident())).append('&');
         params.append("phone_number=").append(student.getPhoneNumber()).append('&');
-        params.append("token=").append(student.getPassword());
+        //params.append("token=").append(student.getPassword());
+        params.append("login=").append(student.getLogin()).append('&');
+        params.append("password=").append(student.getPassword());
+
+
 
         HttpGet httpGet = new HttpGet();
 

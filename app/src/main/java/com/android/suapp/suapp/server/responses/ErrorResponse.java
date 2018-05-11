@@ -6,6 +6,10 @@ public class ErrorResponse {
     private String response = "error";
     private String error = "error_type";
 
+    public String getMessage(){
+        return error;
+    }
+
     public ErrorResponse(String error){
         this.error = error;
     }
