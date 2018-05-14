@@ -12,12 +12,10 @@ import android.view.MenuItem;
 public class MenuActivity extends AppCompatActivity {
 
 
-
    @Override
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_menu);
-
        BottomNavigationView mBottomNavigationItemView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
        mBottomNavigationItemView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
            @Override
@@ -31,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
                        selectedFragment = UserFragment.newInstance();
                        break;
                    case R.id.nav_notice:
-                       selectedFragment = NotificateFragment.newInstance();
+                       selectedFragment = NotificationsFragment.newInstance();
                        break;
                    case R.id.nav_notes:
                        selectedFragment = NotesFragment.newInstance();
@@ -48,4 +46,5 @@ public class MenuActivity extends AppCompatActivity {
 
 
    }
+
 }
