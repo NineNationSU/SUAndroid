@@ -23,7 +23,6 @@
         <EditText android:id="@+id/input_email"
             android:layout_width="310sp"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:hint="Логин"
             android:layout_gravity="center"
             android:background="@drawable/border"/>

@@ -3,6 +3,7 @@ package com.android.suapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,6 +18,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.android.suapp.suapp.sdk.LoginUtility;
+import com.android.suapp.suapp.sdk.RegistrationUtility;
+import com.android.suapp.suapp.server.responses.ErrorResponse;
+import com.android.suapp.suapp.server.responses.OKResponse;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -71,19 +83,68 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        _loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        /*final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Авторизация");
-        progressDialog.show();
+        progressDialog.show();*/
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        final String email = _emailText.getText().toString();
+        final String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
+        final Handler h = new Handler();
 
-        if(email.equals("admin@ya.ru") && password.equals("admin")){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String answer = null;
+                OKResponse ok;
+                ErrorResponse error;
+                final String[] message = {"Что-то пошло не так..."};
+                try {
+                    answer = LoginUtility.loginANewStudent(email, password);
+                    //progressDialog.dismiss();
+                } catch (URISyntaxException | IOException e) {
+                    e.printStackTrace();
+                    System.out.println("err");
+                    message[0] = "косяк запроса";
+                    // тут формируем сообщение пользователю
+                }
+                if (answer != null){
+                        message[0] = "ok";
+                            final String ANSWER = answer;
+                            h.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    SharedPreferences.Editor editor = settings.edit();
+                                    editor.putString(APP_PREFERENCES_LOG, email);
+                                    editor.putString(APP_PREFERENCES_PASS, password);
+                                    editor.apply();
+                                    if (!ANSWER.contains("error")) {
+                                        Toast.makeText(getApplicationContext(), ANSWER, Toast.LENGTH_SHORT).show();
+                                        onLoginSuccess();
+                                        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Неправильные данные!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                }else{
+                    h.post(new Runnable() {
+                        @Override
+                        public void run() {
+                                Toast.makeText(getApplicationContext(), "Сервер не отвечает", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
+            }
+        }).start();
+
+        /*if(email.equals("admin@ya.ru") && password.equals("admin")){
             Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
 
             // Выполняем переход на другой экран:
@@ -97,17 +158,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         } else{
                 Toast.makeText(getApplicationContext(), "Неправильные данные!",Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+
 
 
     }
@@ -139,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.isEmpty()) {
             _emailText.setError("enter a valid email address");
             valid = false;
         } else {
