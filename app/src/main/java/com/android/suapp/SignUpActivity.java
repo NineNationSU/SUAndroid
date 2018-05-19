@@ -11,6 +11,7 @@ import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,12 +20,9 @@ import android.widget.Toast;
 
 import com.android.suapp.suapp.sdk.RegistrationUtility;
 import com.android.suapp.suapp.server.database.objects.Student;
-import com.android.suapp.suapp.server.database.objects.StudyGroup;
 import com.android.suapp.suapp.server.responses.ErrorResponse;
 import com.android.suapp.suapp.server.responses.OKResponse;
 import com.google.gson.Gson;
-
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -39,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText password;
     private SegmentedButtonGroup sex;
     private EditText phoneNumber;
-    private SegmentedButtonGroup Proffecion;
+    private SegmentedButtonGroup proffecion;
     private Button male;
     private Button female;
     private Button signUpButton;
@@ -80,7 +78,8 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.sign_up_pass);
         sex = findViewById(R.id.segmentButtonGroup);
         phoneNumber = findViewById(R.id.sign_up_phone);
-        Proffecion = findViewById(R.id.segmentButtonGroup2);
+        proffecion = findViewById(R.id.segmentButtonGroup2);
+        proffecion.setInterpolatorSelector(new LinearInterpolator());
         female = findViewById(R.id.sex_female);
         male = findViewById(R.id.sex_male);
 
@@ -96,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        Proffecion.setOnClickedButtonPosition(new SegmentedButtonGroup.OnClickedButtonPosition() {
+        proffecion.setOnClickedButtonPosition(new SegmentedButtonGroup.OnClickedButtonPosition() {
             @Override
             public void onClickedButtonPosition(int position) {
                 Proff = position;
