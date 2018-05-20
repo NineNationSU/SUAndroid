@@ -42,4 +42,8 @@
     <string name="sign_up">Регистрация</string>
     <string name="sign_up_login"></string>
     <string name="type_a_message">Введите сообщение</string>
+    <string name="my_classMates">Мои одногруппники</string>
+    <string name="cancel">Назад</string>
+    <string name="send">Отправить</string>
+    <string name="sending">Введите сообщение</string>
 </resources>

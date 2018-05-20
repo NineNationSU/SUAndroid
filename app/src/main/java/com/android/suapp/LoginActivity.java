@@ -1,5 +1,6 @@
 package com.android.suapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -7,7 +8,6 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 
 import com.android.suapp.suapp.sdk.LoginUtility;
-import com.android.suapp.suapp.sdk.RegistrationUtility;
+import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.responses.ErrorResponse;
 import com.android.suapp.suapp.server.responses.OKResponse;
 import com.google.gson.Gson;
@@ -35,9 +35,13 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     public static SharedPreferences settings;
+    private Student student;
+    private int Proffesion;
     public static final String APP_PREFERENCES = "log_pass_login";
     public static final String APP_PREFERENCES_LOG = "Login";
     public static final String APP_PREFERENCES_PASS = "Password";
+    public static final String APP_PREFERENCES_STUDENT_DATA = "Data";
+    public static String APP_PROFFESION = "Proffesion";
 
 
     @BindView(R.id.input_email) EditText _emailText;
@@ -83,10 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        /*final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Авторизация");
-        progressDialog.show();*/
+
 
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
@@ -103,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                 final String[] message = {"Что-то пошло не так..."};
                 try {
                     answer = LoginUtility.loginANewStudent(email, password);
-                    //progressDialog.dismiss();
                 } catch (URISyntaxException | IOException e) {
                     e.printStackTrace();
                     System.out.println("err");
@@ -116,12 +116,29 @@ public class LoginActivity extends AppCompatActivity {
                             h.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    SharedPreferences.Editor editor = settings.edit();
-                                    editor.putString(APP_PREFERENCES_LOG, email);
-                                    editor.putString(APP_PREFERENCES_PASS, password);
-                                    editor.apply();
+
+
                                     if (!ANSWER.contains("error")) {
-                                        Toast.makeText(getApplicationContext(), ANSWER, Toast.LENGTH_SHORT).show();
+                                        student =new Gson().fromJson(ANSWER, Student.class);
+                                        if(student.isGroupManager()){
+                                            Proffesion = 3;
+                                        }
+                                        else if(student.isGroupPresident()){
+                                            Proffesion = 1;
+                                        }
+                                        else if(student.isGroupProforg()){
+                                            Proffesion = 2;
+                                        }
+                                        else{
+                                            Proffesion = 0;
+                                        }
+                                        SharedPreferences.Editor editor = settings.edit();
+                                        editor.putString(APP_PREFERENCES_LOG, email);
+                                        editor.putString(APP_PREFERENCES_PASS, password);
+                                        editor.putString(APP_PREFERENCES_STUDENT_DATA, ANSWER);
+                                        editor.putInt(APP_PROFFESION, Proffesion);
+                                        editor.apply();
+                                        Toast.makeText(getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT).show();
                                         onLoginSuccess();
                                         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                                         startActivity(intent);
@@ -143,26 +160,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         }).start();
-
-        /*if(email.equals("admin@ya.ru") && password.equals("admin")){
-            Toast.makeText(getApplicationContext(), "Вход выполнен!",Toast.LENGTH_SHORT).show();
-
-            // Выполняем переход на другой экран:
-            settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(APP_PREFERENCES_LOG, email);
-            editor.putString(APP_PREFERENCES_PASS, password);
-            editor.apply();
-
-            Intent intent = new Intent(this,MenuActivity.class);
-            startActivity(intent);
-        } else{
-                Toast.makeText(getApplicationContext(), "Неправильные данные!",Toast.LENGTH_SHORT).show();
-        }*/
-
-
-
-
     }
 
 

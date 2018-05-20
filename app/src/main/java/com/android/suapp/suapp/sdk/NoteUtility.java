@@ -20,7 +20,7 @@ public abstract class NoteUtility {
         params.append("addNote?");
 
         params.append("my_id=").append(student.getId()).append('&');
-        params.append("group=").append(student.getGroupNumber()).append('&');
+        params.append("group=").append(student.getGroup()).append('&');
         params.append("date=").append(note.getDate()).append('&');
         params.append("lesson_number=").append(note.getLessonNumber()).append('&');
         params.append("title=").append(note.getTitle()).append('&');
@@ -40,7 +40,7 @@ public abstract class NoteUtility {
         params.append("getNote?");
 
         params.append("my_id=").append(student.getId()).append('&');
-        params.append("group=").append(student.getGroupNumber()).append('&');
+        params.append("group=").append(student.getGroup()).append('&');
         params.append("date=").append(date).append('&');
         params.append("token=").append(token);
 

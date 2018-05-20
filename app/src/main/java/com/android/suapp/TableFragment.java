@@ -32,6 +32,9 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import static com.android.suapp.LoginActivity.APP_PREFERENCES;
+import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
+
 
 /**
  * Created by fokin on 10.04.2018.
@@ -65,7 +68,7 @@ public class TableFragment extends Fragment {
     /**
      * Преобразует названия предметов
      */
-    private String toSimpleName(String str) {
+    public static String toSimpleName(String str) {
         StringBuilder answer = new StringBuilder();
         if (str.length() > 8) {
             String[] array = str.split(" ");
@@ -100,13 +103,17 @@ public class TableFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 try {
+                    Student student;
+                    SharedPreferences studentData = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                    student =new Gson().fromJson(studentData.getString(APP_PREFERENCES_STUDENT_DATA, "Null"), Student.class);
                     SharedPreferences sp = getActivity().getSharedPreferences(TIME_TABLE_PREFERENCES, Context.MODE_PRIVATE);
                     if (sp.getBoolean("DownloadJson", false)) {
                         String timeTable = sp.getString(LESSONS_PREFERENCES, null);
                         t = new Gson().fromJson(timeTable, TimeTable.class);
                     } else {
-                        String timeTable = LKUtility.getTimeTable(new Student().setId(1), "bce4f9ac5bac4e112a64cab5fff3e3fe");
+                        String timeTable = LKUtility.getTimeTable(new Student().setId(1), student.getToken());
                         if (!timeTable.contains("error")) {
                             t = new Gson().fromJson(timeTable, TimeTable.class);
                             sсhedule = getActivity().getSharedPreferences(TIME_TABLE_PREFERENCES, Context.MODE_PRIVATE);
@@ -126,7 +133,7 @@ public class TableFragment extends Fragment {
 
                     System.err.println(t.getTime().get(0));
 
-                } catch (URISyntaxException | IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 h.post(new Runnable() {

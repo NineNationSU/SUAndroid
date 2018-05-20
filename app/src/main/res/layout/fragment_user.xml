@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 <RelativeLayout
     android:id="@+id/rellay1"
     android:layout_width="match_parent"
@@ -18,15 +19,18 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/circle"
         >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/user_photo"
-            android:scaleType="centerCrop"
-            android:layout_margin="9dp"
-            android:adjustViewBounds="false"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/colorBase"/>/>
+        <TextView
+            android:id="@+id/text_view_user_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/user_photo"
+            android:gravity="center"
+            android:maxEms="1"
+            android:textSize="50sp"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <TextView
@@ -38,8 +42,7 @@
         android:textSize="32sp"
         android:fontFamily="sans-serif-light"
         android:layout_marginTop="15sp"
-        android:textColor="@color/colorBase"
-        android:text="@string/user_name"/>
+        android:textColor="@color/colorBase" />
     
     <ImageButton
         android:id="@+id/user_settings"
@@ -73,10 +76,10 @@
             android:layout_centerHorizontal="true"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/text_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="@string/user_money"
                 android:textAllCaps="true"
                 android:textSize="25sp"
                 android:textColor="@color/colorBase"/>
@@ -104,10 +107,10 @@
             android:layout_centerHorizontal="true"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/user_student_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="@string/user_group"
                 android:textAllCaps="true"
                 android:textSize="25sp"
                 android:textColor="@color/colorBase"/>
@@ -132,36 +135,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical"
-            android:layout_centerInParent="true"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Email"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="#FF0000"
-                    android:textSize="18sp"/>
-                
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#808080"
-                    android:layout_marginTop="15dp"/>
-
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,9 +150,9 @@
                     android:textSize="13sp"
                     />
                 <TextView
+                    android:id="@+id/user_phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Phone"
                     android:fontFamily="sans-serif-light"
                     android:textColor="#FF0000"
                     android:textSize="18sp"/>
@@ -189,59 +164,19 @@
                     android:layout_marginTop="15dp"/>
 
             </LinearLayout>
+
             <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="VK"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Vk"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="#FF0000"
-                    android:textSize="18sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#808080"
-                    android:layout_marginTop="15dp"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="GitHub"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/GitHub"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="#FF0000"
-                    android:textSize="18sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#808080"
-                    android:layout_marginTop="15dp"/>
-
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/list_classmates"
+                    android:background="@drawable/border"
+                    android:layout_gravity="center"
+                    android:text="@string/my_classMates"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp" />
             </LinearLayout>
         </LinearLayout>
         

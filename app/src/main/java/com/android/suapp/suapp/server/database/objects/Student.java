@@ -1,10 +1,16 @@
 package com.android.suapp.suapp.server.database.objects;
 
 import com.android.suapp.suapp.server.database.exceptions.IllegalObjectStateException;
+import com.android.suapp.suapp.server.utility.MD5Utility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+
+import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Данный класс описывает запись в таблице suappdatabase_test.students
@@ -19,6 +25,9 @@ public class Student {
 
     @Expose(serialize = false, deserialize = false)
     private String password;
+
+    @Expose(serialize = false, deserialize = false)
+    private String token;
 
     @Expose
     @SerializedName("first_name")
@@ -42,10 +51,6 @@ public class Student {
     @SerializedName("phone_number")
     private String phoneNumber;
 
-
-    /**
-     * Полный номер группы, например <code>"6209-010302D"</code>
-     */
     @Expose
     private StudyGroup group;
 
@@ -61,6 +66,34 @@ public class Student {
     @SerializedName("group_manager")
     private Integer groupManager;
 
+    public Student(){}
+
+    public Student(ResultSet set) throws SQLException {
+        birthday = set.getDate("birthday").toString();
+        firstName = set.getString("first_name");
+        gender = set.getString("gender");
+        group = new StudyGroup().setNumber(set.getString("group"));
+        groupManager = set.getInt("group_manager");
+        groupProforg = set.getInt("group_proforg");
+        groupPresident = set.getInt("group_president");
+        id = set.getInt("id");
+        lastName = set.getString("last_name");
+        login = set.getString("login");
+        middleName = set.getString("middle_name");
+        password = set.getString("password");
+        phoneNumber = set.getString("phone_number");
+        token = set.getString("token");
+    }
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public Student setToken(String token) {
+        this.token = token;
+        return this;
+    }
 
     public Integer getId() {
         return id;
@@ -143,7 +176,11 @@ public class Student {
         return this;
     }
 
-    public String getGroupNumber() {
+    /**
+     *
+     * @return номер группы
+     */
+    public String getGroup() {
         return group.getNumber();
     }
 
@@ -189,21 +226,22 @@ public class Student {
      * @return строка специального вида для занесения записи в базу данных
      * @throws IllegalObjectStateException Ошибка в заполнении полей
      */
-    public String toSQLInsertString() throws IllegalObjectStateException {
+    public String toSQLInsertString() throws IllegalObjectStateException, NoSuchAlgorithmException {
         if (login == null || password == null
                 || firstName == null || middleName == null
                 || lastName == null || birthday == null
                 || gender == null || group == null){
             throw new IllegalObjectStateException("Заполнены не все обязательные поля объекта 'Студент'");
         }
-		if (login.equals("") || password.equals("")
+        if (login.equals("") || password.equals("")
                 || firstName.equals("") || middleName.equals("")
                 || lastName.equals("") || birthday.equals("")
-                || gender.equals("") || group.equals("")){
+                || gender.equals("") || group.getNumber().equals("")){
             throw new IllegalObjectStateException("Заполнены не все обязательные поля объекта 'Студент'");
         }
         StringBuilder answer = new StringBuilder();
         answer.append("login='").append(login).append('\'');
+        answer.append(", token='").append(MD5Utility.getMD5(login+password)).append('\'');
         answer.append(", password='").append(password).append('\'');
         answer.append(", first_name='").append(firstName).append('\'');
         answer.append(", middle_name='").append(middleName).append('\'');

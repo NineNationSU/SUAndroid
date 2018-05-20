@@ -1,7 +1,9 @@
 package com.android.suapp;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +32,9 @@ import java.util.Calendar;
 
 import co.ceryle.segmentedbutton.SegmentedButtonGroup;
 
+import static com.android.suapp.LoginActivity.APP_PREFERENCES;
+import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
+
 public class SignUpActivity extends AppCompatActivity {
 
 
@@ -45,6 +50,8 @@ public class SignUpActivity extends AppCompatActivity {
     private Student student;
     private TextView pickedDate;
     private String token;
+    private SharedPreferences studentData;
+    public static String APP_PROFFESION = "Proffesion";
 
     private String Sex = "Жен";
     private int Proff = 1;
@@ -165,7 +172,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void run() {
                 String answer = null;
-                OKResponse ok;
                 ErrorResponse error;
                 final String[] message = {"Что-то пошло не так..."};
                 try {
@@ -176,42 +182,53 @@ public class SignUpActivity extends AppCompatActivity {
                     // тут формируем сообщение пользователю
                 }
                 if (answer != null){
+                    final String ANSWER = answer;
                     try{
-                        ok = new Gson().fromJson(answer, OKResponse.class);
                         message[0] = "ok";
                         if (answer.contains("error"))
                             throw new Exception();
                         // тут формируем сообщение пользователю
-                    }catch (Exception e){
-                        try{
+                        else{
+                            studentData=  getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = studentData.edit();
+                            editor.putString(APP_PREFERENCES_STUDENT_DATA, ANSWER);
+                            editor.putInt(APP_PROFFESION, Proff);
+                            editor.apply();
+                            h.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    Toast.makeText(getApplicationContext(), "Регистрация завершена!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            }, 200);
+
+                        }
+                    }catch (Exception e) {
+                        try {
                             error = new Gson().fromJson(answer, ErrorResponse.class);
                             message[0] = error.getMessage();
 
                             // тут формируем сообщение пользователю
-                        }catch (Exception ex){
+                        } catch (Exception ex) {
                             message[0] = "Fatal Error";
                             System.out.println("err");
 
                             // тут формируем сообщение пользователю
+                        } finally {
+                            h.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Введите корректный логин и пароль от лк", Toast.LENGTH_SHORT).show();
+                                }
+                            }, 200);
+                        }
                         }
                     }
                 }
-                h.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!message[0].equals("")){
-                            Toast.makeText(getApplicationContext(), message[0], Toast.LENGTH_SHORT).show(); // тут передаем сообщение пользователю
-                        }
-                        else{
-                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                }, 300);
-            }
+
         }).start();
-
-
 
 
     }
