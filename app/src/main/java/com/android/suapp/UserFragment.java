@@ -32,6 +32,7 @@ import java.net.URISyntaxException;
 import static com.android.suapp.LoginActivity.APP_PREFERENCES;
 
 import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
+import static com.android.suapp.LoginActivity.settings;
 import static com.android.suapp.TableFragment.LESSONS_PREFERENCES;
 import static com.android.suapp.TableFragment.toSimpleName;
 
@@ -89,9 +90,20 @@ public class UserFragment extends Fragment {
 
                 try {
                     dataStudent = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-                    student =new Gson().fromJson(dataStudent.getString(APP_PREFERENCES_STUDENT_DATA, "Null"), Student.class);
-
-                    salary = SUAppServer.loadStudentSalary(student.getToken());
+                    String studentJSONString = dataStudent.getString(APP_PREFERENCES_STUDENT_DATA, "null");
+                    if(studentJSONString.equals("null")){
+                        throw new Exception();
+                    }
+                    student =new Gson().fromJson(studentJSONString, Student.class);
+                    String salaryString = dataStudent.getString("salary", "null");
+                    if(salaryString.equals("null")) {
+                        salary = SUAppServer.loadStudentSalary(student.getToken());
+                        SharedPreferences.Editor editor = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE).edit();
+                        editor.putString("salary", salary);
+                        editor.apply();
+                    }else{
+                        salary = salaryString;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

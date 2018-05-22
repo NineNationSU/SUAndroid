@@ -25,14 +25,13 @@ import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.responses.ServerResponse;
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Calendar;
 
 import co.ceryle.segmentedbutton.SegmentedButtonGroup;
 
 import static com.android.suapp.LoginActivity.APP_PREFERENCES;
 import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
+import static com.android.suapp.LoginActivity.APP_PROFESSION;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -50,7 +49,6 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView pickedDate;
     private String token;
     private SharedPreferences studentData;
-    public static String APP_PROFFESION = "Proffesion";
 
     private String Sex = "Жен";
     private int Proff = 1;
@@ -191,7 +189,7 @@ public class SignUpActivity extends AppCompatActivity {
                             studentData=  getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = studentData.edit();
                             editor.putString(APP_PREFERENCES_STUDENT_DATA, ANSWER);
-                            editor.putInt(APP_PROFFESION, Proff);
+                            editor.putInt(APP_PROFESSION, Proff);
                             editor.apply();
                             h.postDelayed(new Runnable() {
                                 @Override

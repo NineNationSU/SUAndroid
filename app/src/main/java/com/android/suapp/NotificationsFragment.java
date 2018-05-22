@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.objects.Message;
@@ -29,16 +28,12 @@ import com.android.suapp.suapp.server.database.objects.StudyGroup;
 import com.android.suapp.suapp.server.utility.MessagesListWrapper;
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.android.suapp.LoginActivity.APP_PREFERENCES;
 import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
-import static com.android.suapp.SignUpActivity.APP_PROFFESION;
+import static com.android.suapp.LoginActivity.APP_PROFESSION;
 
 /**
  * Created by fokin on 10.04.2018.
@@ -101,7 +96,7 @@ public class NotificationsFragment extends Fragment {
         }
         getMessages();
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view_all_messages);
-        new Handler().post(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -110,7 +105,7 @@ public class NotificationsFragment extends Fragment {
                     swipeRefreshLayout.setRefreshing(false);
                 }catch (Exception ignored){}
             }
-        });
+        }, 200);
 
 
 
@@ -140,8 +135,8 @@ public class NotificationsFragment extends Fragment {
         newMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                select = proffesion.getInt(APP_PROFFESION, -1);
+                proffesion = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+                select = proffesion.getInt(APP_PROFESSION, -1);
                 switch (select){
                     case -1:
                         Toast.makeText(getContext(), "Не удалось загрузить данные о пользователе", Toast.LENGTH_SHORT).show();
