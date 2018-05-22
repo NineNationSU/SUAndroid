@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     onLoginSuccess();
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(intent);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     try{
                         error = new Gson().fromJson(answer, ServerResponse.class);
                         final String ERROR_MESSAGE = error.getErrorType();

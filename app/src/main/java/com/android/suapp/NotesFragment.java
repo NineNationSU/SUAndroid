@@ -1,5 +1,6 @@
 package com.android.suapp;
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,12 +14,13 @@ import android.view.ViewGroup;
 
 public class NotesFragment extends Fragment{
 
+    @SuppressLint("StaticFieldLeak")
+    private static NotesFragment instance;
     public static NotesFragment newInstance() {
-        NotesFragment fragment = new NotesFragment();
-        return fragment;
-    }
-
-    public NotesFragment(){
+        if (instance == null){
+            instance = new NotesFragment();
+        }
+        return instance;
     }
 
     @Nullable

@@ -56,9 +56,13 @@ public class UserFragment extends Fragment {
     private SharedPreferences classMates;
     public static final String listOfClassMates = "List";
 
+    @SuppressLint("StaticFieldLeak")
+    private static UserFragment instance;
     public static UserFragment newInstance() {
-        UserFragment fragment = new UserFragment();
-        return fragment;
+        if (instance == null){
+            instance = new UserFragment();
+        }
+        return instance;
     }
 
     public UserFragment(){
@@ -88,25 +92,26 @@ public class UserFragment extends Fragment {
                     student =new Gson().fromJson(dataStudent.getString(APP_PREFERENCES_STUDENT_DATA, "Null"), Student.class);
 
                     salary = SUAppServer.loadStudentSalary(student.getToken());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 h.post(new Runnable() {
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
-                        String s;
-                        textName.setText(student.getLastName()+" "+student.getFirstName());
-                        textGroup.setText(student.getGroupNumber());
-                        textPhoneNumber.setText(student.getPhoneNumber());
-                        s = student.getFirstName()+" "+student.getLastName();
-                        textImage.setText(toSimpleName(s));
-                        if(salary!=null){
-                            textMoney.setText(salary);
-                        }
-                        else{
-                            Toast.makeText(getContext(), "Ошибка загрузки", Toast.LENGTH_SHORT).show();
-                        }
+                        try {
+                            String s;
+                            textName.setText(student.getLastName() + " " + student.getFirstName());
+                            textGroup.setText(student.getGroupNumber());
+                            textPhoneNumber.setText(student.getPhoneNumber());
+                            s = student.getFirstName() + " " + student.getLastName();
+                            textImage.setText(toSimpleName(s));
+                            if (salary != null) {
+                                textMoney.setText(salary);
+                            } else {
+                                Toast.makeText(getContext(), "Ошибка загрузки", Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception ignored){}
 
 
                     }

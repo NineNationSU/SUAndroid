@@ -53,17 +53,20 @@ public class TableFragment extends Fragment {
     private int parity_num_week = 0;
 
 
+    @SuppressLint("StaticFieldLeak")
+    private static TableFragment instance;
+    public static TableFragment newInstance() {
+        if (instance == null){
+            instance = new TableFragment();
+        }
+        return instance;
+    }
+
+
     final String[] Days = {"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"};
 
-    TableFragment fragment;
 
-    /*
-        public TableFragment newInstance() {
-             return new TableFragment();
-        }
-    */
-    public TableFragment() {
-    }
+    public TableFragment(){}
 
     /**
      * Преобразует названия предметов

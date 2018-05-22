@@ -23,7 +23,7 @@ public class MenuActivity extends AppCompatActivity {
                Fragment selectedFragment;
                switch (item.getItemId()) {
                    case R.id.nav_table:
-                       selectedFragment = new TableFragment();
+                       selectedFragment = TableFragment.newInstance();
                        break;
                    case R.id.nav_user:
                        selectedFragment = UserFragment.newInstance();
@@ -43,10 +43,6 @@ public class MenuActivity extends AppCompatActivity {
                return true;
            }
        });
-       Fragment selectedFragment = UserFragment.newInstance();
-       FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-       transaction.replace(R.id.fragment_container, selectedFragment);
-       transaction.commit();
 
    }
 

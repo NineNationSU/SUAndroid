@@ -175,7 +175,7 @@ public class SignUpActivity extends AppCompatActivity {
                 final String[] message = {"Что-то пошло не так..."};
                 try {
                     answer = SUAppServer.registerANewStudent(student);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     System.out.println("err");
                     message[0] = "косяк запроса";
                     // тут формируем сообщение пользователю
@@ -208,23 +208,18 @@ public class SignUpActivity extends AppCompatActivity {
                         try {
                             error = new Gson().fromJson(answer, ServerResponse.class);
                             message[0] = error.getErrorType();
-
-                            // тут формируем сообщение пользователю
                         } catch (Exception ex) {
                             message[0] = "Fatal Error";
-                            System.out.println("err");
-
-                            // тут формируем сообщение пользователю
-                        } finally {
-                            h.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), message[0], Toast.LENGTH_SHORT).show();
-                                }
-                            }, 200);
+                            System.out.println(message[0]);
                         }
                         }
                     }
+                h.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), message[0], Toast.LENGTH_SHORT).show();
+                    }
+                });
                 }
 
         }).start();

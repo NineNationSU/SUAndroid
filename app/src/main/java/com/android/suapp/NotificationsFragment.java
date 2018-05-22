@@ -1,5 +1,6 @@
 package com.android.suapp;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -53,9 +54,13 @@ public class NotificationsFragment extends Fragment {
     public static int messageCount;
     public static List<Message> list;
 
+    @SuppressLint("StaticFieldLeak")
+    private static NotificationsFragment instance;
     public static NotificationsFragment newInstance() {
-        NotificationsFragment fragment = new NotificationsFragment();
-        return fragment;
+        if (instance == null){
+            instance = new NotificationsFragment();
+        }
+        return instance;
     }
 
     private void getMessages(){
@@ -69,7 +74,7 @@ public class NotificationsFragment extends Fragment {
                     messageCount = listWrapper.getList().size();
                     list = listWrapper.getList();
                     System.out.println(messageCount);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -91,19 +96,21 @@ public class NotificationsFragment extends Fragment {
             sourceData = proffesion.getString(APP_PREFERENCES_STUDENT_DATA, null);
             student =new Gson().fromJson(sourceData, Student.class);
         }
-                catch (NullPointerException e){
+                catch (Exception e){
             Toast.makeText(getContext(), "Не удалось загрузить данные о пользователе", Toast.LENGTH_SHORT).show();
         }
         getMessages();
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view_all_messages);
-        new Handler().postDelayed(new Runnable() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerView.setAdapter(new RecyclerViewAdapter(NotificationsFragment.this.getContext(), CardModel.getObjectList(list)));
-                swipeRefreshLayout.setRefreshing(false);
+                try {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setAdapter(new RecyclerViewAdapter(NotificationsFragment.this.getContext(), CardModel.getObjectList(list)));
+                    swipeRefreshLayout.setRefreshing(false);
+                }catch (Exception ignored){}
             }
-        }, 1500);
+        });
 
 
 
@@ -171,7 +178,7 @@ public class NotificationsFragment extends Fragment {
                                                             listener.onRefresh();
                                                         }
                                                     });
-                                                } catch (IOException e) {
+                                                } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
                                             }
