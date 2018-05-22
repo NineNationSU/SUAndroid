@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class ServerResponse {
     private String response;
 
-    @SerializedName("error_type")
+    @SerializedName("error")
     private String errorType;
 
     public String getResponse() {

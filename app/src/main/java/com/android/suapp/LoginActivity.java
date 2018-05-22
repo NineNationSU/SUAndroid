@@ -97,7 +97,11 @@ public class LoginActivity extends AppCompatActivity {
                 final ServerResponse error;
                 try {
                     answer = SUAppServer.authorize(email, password);
-                    student =new Gson().fromJson(answer, Student.class);
+                    error = new Gson().fromJson(answer, ServerResponse.class);
+                    if (error.getResponse() != null && error.getResponse().equals("error")){
+                        throw new Exception();
+                    }
+                    student = new Gson().fromJson(answer, Student.class);
                     if(student.isGroupManager()){
                         profession = 3;
                     }
@@ -116,14 +120,19 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(APP_PREFERENCES_STUDENT_DATA, answer);
                     editor.putInt(APP_PROFESSION, profession);
                     editor.apply();
-                    Toast.makeText(getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT).show();
-                    onLoginSuccess();
-                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    startActivity(intent);
+                    h.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT).show();
+                            onLoginSuccess();
+                            Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                            startActivity(intent);
+                        }
+                    });
                 } catch (Exception e) {
                     try{
-                        error = new Gson().fromJson(answer, ServerResponse.class);
-                        final String ERROR_MESSAGE = error.getErrorType();
+                        ServerResponse error2 = new Gson().fromJson(answer, ServerResponse.class);
+                        final String ERROR_MESSAGE = error2.getErrorType();
                         h.post(new Runnable() {
                             @Override
                             public void run() {
