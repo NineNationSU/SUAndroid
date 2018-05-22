@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sp = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        if (sp.getBoolean("FirstRun", true)) {
+        if (sp.getBoolean("FirstRun", false)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

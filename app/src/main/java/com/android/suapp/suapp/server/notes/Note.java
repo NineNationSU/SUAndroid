@@ -16,28 +16,17 @@ public class Note {
     private StudyGroup group;
 
     @Expose
-    private String date;
-
-    @Expose
-    @SerializedName("lesson_number")
-    private Integer lessonNumber;
-
-    @Expose
-    private String title;
+    private String lesson;
 
     @Expose
     private String text;
 
 
-    public Note(){
-
-    }
+    public Note(){}
 
     public Note(ResultSet set) throws SQLException {
         group = new StudyGroup().setNumber(set.getString("group_number"));
-        date = set.getDate("date").toString();
-        lessonNumber = set.getInt("lesson_number");
-        title = set.getString("title");
+        lesson = set.getString("lesson");
         text = set.getString("text");
     }
 
@@ -59,30 +48,12 @@ public class Note {
         return this;
     }
 
-    public String getDate() {
-        return date;
+    public String getLesson() {
+        return lesson;
     }
 
-    public Note setDate(String date) {
-        this.date = date;
-        return this;
-    }
-
-    public Integer getLessonNumber() {
-        return lessonNumber;
-    }
-
-    public Note setLessonNumber(Integer lessonNumber) {
-        this.lessonNumber = lessonNumber;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Note setTitle(String title) {
-        this.title = title;
+    public Note setLesson(String lesson) {
+        this.lesson = lesson;
         return this;
     }
 

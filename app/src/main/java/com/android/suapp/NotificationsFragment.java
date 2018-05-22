@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
-import com.android.suapp.suapp.sdk.MessageUtility;
+import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.objects.Message;
 import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.database.objects.StudyGroup;
@@ -64,12 +64,12 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void run() {
                 try{
-                    String listOfMessage = MessageUtility.getMessages(student,student.getToken());
+                    String listOfMessage = SUAppServer.getMessages(student.getToken());
                     MessagesListWrapper listWrapper = new Gson().fromJson(listOfMessage, MessagesListWrapper.class);
                     messageCount = listWrapper.getList().size();
                     list = listWrapper.getList();
                     System.out.println(messageCount);
-                } catch (IOException | URISyntaxException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -160,9 +160,9 @@ public class NotificationsFragment extends Fragment {
                                             @Override
                                             public void run() {
                                                 try {
-                                                    final String message = MessageUtility.sendMessage(
+                                                    final String message = SUAppServer.sendMessage(
                                                             new Message().setSenderId(student.getId()).setBody(messageBody.getText().toString()),
-                                                            new StudyGroup().setNumber(student.getGroup()),
+                                                            new StudyGroup().setNumber(student.getGroupNumber()),
                                                             student.getToken());
                                                     h.post(new Runnable() {
                                                         @Override
@@ -171,7 +171,7 @@ public class NotificationsFragment extends Fragment {
                                                             listener.onRefresh();
                                                         }
                                                     });
-                                                } catch (URISyntaxException | IOException e) {
+                                                } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
                                             }

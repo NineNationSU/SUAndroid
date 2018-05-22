@@ -1,6 +1,5 @@
 package com.android.suapp;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -18,36 +17,33 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.android.suapp.suapp.sdk.LoginUtility;
+import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.objects.Student;
-import com.android.suapp.suapp.server.responses.ErrorResponse;
-import com.android.suapp.suapp.server.responses.OKResponse;
+import com.android.suapp.suapp.server.responses.ServerResponse;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
-    private static final int REQUEST_SIGNUP = 0;
+    private static final int REQUEST_SIGN_UP = 0;
     public static SharedPreferences settings;
     private Student student;
-    private int Proffesion;
+    private int profession;
     public static final String APP_PREFERENCES = "log_pass_login";
     public static final String APP_PREFERENCES_LOG = "Login";
     public static final String APP_PREFERENCES_PASS = "Password";
     public static final String APP_PREFERENCES_STUDENT_DATA = "Data";
-    public static String APP_PROFFESION = "Proffesion";
+    public static final String APP_PROFESSION = "profession";
 
 
-    @BindView(R.id.input_email) EditText _emailText;
-    @BindView(R.id.input_password) EditText _passwordText;
-    @BindView(R.id.btn_login) Button _loginButton;
-    @BindView(R.id.link_signup) TextView _signupLink;
+    EditText _emailText;
+    EditText _passwordText;
+    Button _loginButton;
+    TextView _signUpLink;
 
 
     @Override
@@ -55,22 +51,24 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        _emailText = findViewById(R.id.input_email);
+        _passwordText = findViewById(R.id.input_password);
+        _loginButton = findViewById(R.id.btn_login);
+        _signUpLink = findViewById(R.id.link_signup);
 
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 login();
             }
         });
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
+        _signUpLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
+                // Start the SignUp activity
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
                 startActivity(intent);
                 finish();
@@ -87,82 +85,63 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
-
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
         final Handler h = new Handler();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String answer = null;
-                OKResponse ok;
-                ErrorResponse error;
-                final String[] message = {"Что-то пошло не так..."};
+                final ServerResponse error;
                 try {
-                    answer = LoginUtility.loginANewStudent(email, password);
-                } catch (URISyntaxException | IOException e) {
-                    e.printStackTrace();
-                    System.out.println("err");
-                    message[0] = "косяк запроса";
-                    // тут формируем сообщение пользователю
-                }
-                if (answer != null){
-                        message[0] = "ok";
-                            final String ANSWER = answer;
-                            h.post(new Runnable() {
-                                @Override
-                                public void run() {
-
-
-                                    if (!ANSWER.contains("error")) {
-                                        student =new Gson().fromJson(ANSWER, Student.class);
-                                        if(student.isGroupManager()){
-                                            Proffesion = 3;
-                                        }
-                                        else if(student.isGroupPresident()){
-                                            Proffesion = 1;
-                                        }
-                                        else if(student.isGroupProforg()){
-                                            Proffesion = 2;
-                                        }
-                                        else{
-                                            Proffesion = 0;
-                                        }
-                                        SharedPreferences.Editor editor = settings.edit();
-                                        editor.putString(APP_PREFERENCES_LOG, email);
-                                        editor.putString(APP_PREFERENCES_PASS, password);
-                                        editor.putString(APP_PREFERENCES_STUDENT_DATA, ANSWER);
-                                        editor.putInt(APP_PROFFESION, Proffesion);
-                                        editor.apply();
-                                        Toast.makeText(getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT).show();
-                                        onLoginSuccess();
-                                        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Неправильные данные!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                }else{
-                    h.post(new Runnable() {
-                        @Override
-                        public void run() {
+                    answer = SUAppServer.authorize(email, password);
+                    student =new Gson().fromJson(answer, Student.class);
+                    if(student.isGroupManager()){
+                        profession = 3;
+                    }
+                    else if(student.isGroupPresident()){
+                        profession = 1;
+                    }
+                    else if(student.isGroupProforg()){
+                        profession = 2;
+                    }
+                    else{
+                        profession = 0;
+                    }
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString(APP_PREFERENCES_LOG, email);
+                    editor.putString(APP_PREFERENCES_PASS, password);
+                    editor.putString(APP_PREFERENCES_STUDENT_DATA, answer);
+                    editor.putInt(APP_PROFESSION, profession);
+                    editor.apply();
+                    Toast.makeText(getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT).show();
+                    onLoginSuccess();
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                    startActivity(intent);
+                } catch (IOException e) {
+                    try{
+                        error = new Gson().fromJson(answer, ServerResponse.class);
+                        final String ERROR_MESSAGE = error.getErrorType();
+                        h.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }catch (Exception ex){
+                        h.post(new Runnable() {
+                            @Override
+                            public void run() {
                                 Toast.makeText(getApplicationContext(), "Сервер не отвечает", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
-
-
             }
         }).start();
     }
-
-
 
     @Override
     public void onBackPressed() {

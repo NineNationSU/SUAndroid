@@ -20,10 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.suapp.suapp.sdk.RegistrationUtility;
+import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.objects.Student;
-import com.android.suapp.suapp.server.responses.ErrorResponse;
-import com.android.suapp.suapp.server.responses.OKResponse;
+import com.android.suapp.suapp.server.responses.ServerResponse;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -145,24 +144,24 @@ public class SignUpActivity extends AppCompatActivity {
         student.setGender(Sex);
 
         if(Proff == 1){
-            student.setGroupPresident(true);
-            student.setGroupManager(false);
-            student.setGroupProforg(false);
+            student.setGroupPresident(1);
+            student.setGroupManager(0);
+            student.setGroupProforg(0);
         }
         else if(Proff == 2){
-            student.setGroupProforg(true);
-            student.setGroupManager(false);
-            student.setGroupPresident(false);
+            student.setGroupProforg(1);
+            student.setGroupManager(0);
+            student.setGroupPresident(0);
         }
         else if(Proff == 3){
-            student.setGroupManager(true);
-            student.setGroupPresident(false);
-            student.setGroupProforg(false);
+            student.setGroupManager(1);
+            student.setGroupPresident(0);
+            student.setGroupProforg(0);
         }
         else{
-            student.setGroupPresident(false);
-            student.setGroupManager(false);
-            student.setGroupProforg(false);
+            student.setGroupPresident(0);
+            student.setGroupManager(0);
+            student.setGroupProforg(0);
         }
 
         final Handler h = new Handler();
@@ -172,11 +171,11 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void run() {
                 String answer = null;
-                ErrorResponse error;
+                ServerResponse error;
                 final String[] message = {"Что-то пошло не так..."};
                 try {
-                    answer = RegistrationUtility.registerANewStudent(student);
-                } catch (URISyntaxException | IOException e) {
+                    answer = SUAppServer.registerANewStudent(student);
+                } catch (IOException e) {
                     System.out.println("err");
                     message[0] = "косяк запроса";
                     // тут формируем сообщение пользователю
@@ -207,8 +206,8 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }catch (Exception e) {
                         try {
-                            error = new Gson().fromJson(answer, ErrorResponse.class);
-                            message[0] = error.getMessage();
+                            error = new Gson().fromJson(answer, ServerResponse.class);
+                            message[0] = error.getErrorType();
 
                             // тут формируем сообщение пользователю
                         } catch (Exception ex) {
@@ -220,7 +219,7 @@ public class SignUpActivity extends AppCompatActivity {
                             h.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getApplicationContext(), "Введите корректный логин и пароль от лк", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), message[0], Toast.LENGTH_SHORT).show();
                                 }
                             }, 200);
                         }

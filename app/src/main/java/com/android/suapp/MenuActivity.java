@@ -20,7 +20,7 @@ public class MenuActivity extends AppCompatActivity {
        mBottomNavigationItemView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               Fragment selectedFragment = null;
+               Fragment selectedFragment;
                switch (item.getItemId()) {
                    case R.id.nav_table:
                        selectedFragment = new TableFragment();
@@ -43,7 +43,10 @@ public class MenuActivity extends AppCompatActivity {
                return true;
            }
        });
-
+       Fragment selectedFragment = UserFragment.newInstance();
+       FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+       transaction.replace(R.id.fragment_container, selectedFragment);
+       transaction.commit();
 
    }
 

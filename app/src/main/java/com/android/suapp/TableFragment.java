@@ -19,7 +19,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.suapp.suapp.sdk.LKUtility;
+import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.exceptions.IllegalObjectStateException;
 import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.timetable.Couple;
@@ -113,7 +113,7 @@ public class TableFragment extends Fragment {
                         String timeTable = sp.getString(LESSONS_PREFERENCES, null);
                         t = new Gson().fromJson(timeTable, TimeTable.class);
                     } else {
-                        String timeTable = LKUtility.getTimeTable(new Student().setId(1), student.getToken());
+                        String timeTable = SUAppServer.getTimeTable(student.getToken());
                         if (!timeTable.contains("error")) {
                             t = new Gson().fromJson(timeTable, TimeTable.class);
                             sсhedule = getActivity().getSharedPreferences(TIME_TABLE_PREFERENCES, Context.MODE_PRIVATE);

@@ -20,7 +20,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.suapp.suapp.sdk.SalaryUtility;
+import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.objects.Student;
 import com.google.gson.Gson;
 
@@ -87,8 +87,8 @@ public class UserFragment extends Fragment {
                     dataStudent = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
                     student =new Gson().fromJson(dataStudent.getString(APP_PREFERENCES_STUDENT_DATA, "Null"), Student.class);
 
-                    salary = SalaryUtility.loadStudentSalary(student.getToken());
-                } catch (URISyntaxException | IOException e) {
+                    salary = SUAppServer.loadStudentSalary(student.getToken());
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 h.post(new Runnable() {
@@ -97,7 +97,7 @@ public class UserFragment extends Fragment {
                     public void run() {
                         String s;
                         textName.setText(student.getLastName()+" "+student.getFirstName());
-                        textGroup.setText(student.getGroup());
+                        textGroup.setText(student.getGroupNumber());
                         textPhoneNumber.setText(student.getPhoneNumber());
                         s = student.getFirstName()+" "+student.getLastName();
                         textImage.setText(toSimpleName(s));
