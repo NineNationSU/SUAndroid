@@ -33,6 +33,7 @@ import com.android.suapp.suapp.server.database.objects.Message;
 import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.database.objects.StudyGroup;
 import com.android.suapp.suapp.server.notes.Note;
+import com.android.suapp.suapp.server.responses.ServerResponse;
 import com.android.suapp.suapp.server.utility.MessagesListWrapper;
 import com.android.suapp.suapp.server.utility.NoteListWrapper;
 import com.google.gson.Gson;
@@ -190,10 +191,11 @@ public class BodyNotesFragment extends Fragment {
                                                                     .setText(noteBody.getText().toString())
                                                                     .setLesson(discipline),
                                                             student.getToken());
+                                                    final ServerResponse r = new Gson().fromJson(message, ServerResponse.class);
                                                     h.post(new Runnable() {
                                                         @Override
                                                         public void run() {
-                                                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getContext(), r.getResponse(), Toast.LENGTH_SHORT).show();
                                                             listener.onRefresh();
                                                         }
                                                     });

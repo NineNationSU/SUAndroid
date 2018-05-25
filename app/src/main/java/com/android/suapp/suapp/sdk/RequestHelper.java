@@ -6,9 +6,11 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 abstract class RequestHelper {
     static String getRequest(String url) throws IOException {
+        url = url.replaceAll("\n", " ");
         URL u = new URL(url);
         System.err.println(url);
         URLConnection conn = u.openConnection();
