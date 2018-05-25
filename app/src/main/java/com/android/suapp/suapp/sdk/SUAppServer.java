@@ -11,8 +11,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public abstract class SUAppServer {
-    public static final String SERVER_IP = "http://192.168.0.102:4567/";
-
+    public static final String SERVER_IP = "http://192.168.43.89:4567/";
     public static String getTimeTable(@NonNull String token) throws IOException {
         String params = SERVER_IP + "getTimeTable?" + "token=" + token;
         return RequestHelper.getRequest(params);
@@ -78,6 +77,11 @@ public abstract class SUAppServer {
 
     public static String loadClassmates(@NonNull String token) throws IOException {
         String params = SERVER_IP + "classmates?" + "token=" + token;
+        return RequestHelper.getRequest(params);
+    }
+
+    public static String getLessons(@NonNull String token) throws  IOException{
+        String params = SERVER_IP + "getLessons?" + "token=" + token;
         return RequestHelper.getRequest(params);
     }
 }

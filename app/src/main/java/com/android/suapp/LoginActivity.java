@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     answer = SUAppServer.authorize(email, password);
                     error = new Gson().fromJson(answer, ServerResponse.class);
-                    if (error.getResponse() != null && error.getResponse().equals("error")){
+                    if (error.getResponse() != null){
                         throw new Exception();
                     }
                     student = new Gson().fromJson(answer, Student.class);
@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     try{
                         ServerResponse error2 = new Gson().fromJson(answer, ServerResponse.class);
-                        final String ERROR_MESSAGE = error2.getErrorType();
+                        final String ERROR_MESSAGE = error2.getResponse();
                         h.post(new Runnable() {
                             @Override
                             public void run() {

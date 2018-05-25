@@ -1,7 +1,6 @@
-package com.android.suapp;
+package com.android.suapp.messages;
 
-import android.widget.TextView;
-
+import com.android.suapp.TableFragment;
 import com.android.suapp.suapp.server.database.objects.Message;
 
 import java.util.ArrayList;
@@ -41,8 +40,8 @@ public class CardModel {
         for (int i = messages.size() - 1; i > -1; i--) {
             System.out.println(messages.get(i));
             CardModel nature = new CardModel();
-            nature.icon = Integer.toString(messages.get(i).getSenderId());
-            nature.userName = Integer.toString(messages.get(i).getSenderId());
+            nature.icon = TableFragment.toSimpleName(messages.get(i).getSenderName());
+            nature.userName = messages.get(i).getSenderName();
             nature.messageBody = messages.get(i).getBody();
             dataList.add(nature);
         }

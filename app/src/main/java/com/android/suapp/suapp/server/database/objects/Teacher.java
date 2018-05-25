@@ -117,6 +117,21 @@ public class Teacher {
         return this;
     }
 
+    public String getFullName(){
+        String name = "";
+        if(lastName != null){
+            name += lastName + " ";
+        }
+
+        if (firstName != null){
+            name += firstName + " ";
+        }
+        if (middleName != null){
+            name += middleName;
+        }
+        return name;
+    }
+
     @Override
     public String toString() {
         return new Gson().toJson(this);

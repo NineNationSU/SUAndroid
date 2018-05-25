@@ -1,11 +1,12 @@
 package com.android.suapp;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
-import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -22,15 +22,15 @@ import android.widget.Toast;
 import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.exceptions.IllegalObjectStateException;
 import com.android.suapp.suapp.server.database.objects.Student;
+import com.android.suapp.suapp.server.responses.ServerResponse;
 import com.android.suapp.suapp.server.timetable.Couple;
 import com.android.suapp.suapp.server.timetable.Lesson;
 import com.android.suapp.suapp.server.timetable.TimeTable;
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import static com.android.suapp.LoginActivity.APP_PREFERENCES;
 import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
@@ -43,13 +43,17 @@ import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
 public class TableFragment extends Fragment {
 
     public static SharedPreferences sсhedule;
+    public static SharedPreferences notes;
     public static final String TIME_TABLE_PREFERENCES = "JsonFile";
     public static final String LESSONS_PREFERENCES = "TimeTable";
+
+
+
+    private String disciplines = "";
     private TextView parity;
     private HorizontalScrollView horizontalScrollView;
     private TableLayout timeTableLayout;
     private TableRow row1;
-    String json = null;
     private int parity_num_week = 0;
 
 
@@ -96,6 +100,8 @@ public class TableFragment extends Fragment {
         row1 = rootView.findViewById(R.id.Row1);
         horizontalScrollView = rootView.findViewById(R.id.scroll);
         timeTableLayout = rootView.findViewById(R.id.table_layout_lessons);
+
+        timeTableLayout.setOnClickListener(null);
         final Handler h = new Handler();
 
 
@@ -117,7 +123,8 @@ public class TableFragment extends Fragment {
                         t = new Gson().fromJson(timeTable, TimeTable.class);
                     } else {
                         String timeTable = SUAppServer.getTimeTable(student.getToken());
-                        if (!timeTable.contains("error")) {
+                        ServerResponse response = new Gson().fromJson(timeTable, ServerResponse.class);
+                        if (response.getResponse() == null) {
                             t = new Gson().fromJson(timeTable, TimeTable.class);
                             sсhedule = getActivity().getSharedPreferences(TIME_TABLE_PREFERENCES, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sсhedule.edit();
@@ -128,7 +135,7 @@ public class TableFragment extends Fragment {
                             h1.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(rootView.getContext(), "Ошибка токена", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(rootView.getContext(), "Ошибка при загрузке расписания", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -204,47 +211,121 @@ public class TableFragment extends Fragment {
         }
         //timeTableLayout.addView(row1);
 
-        for (int i = 0; i < 6; i++) {
-            TableRow newRow = new TableRow(timeTableLayout.getContext());
-            TextView time = new TextView(newRow.getContext());
-            time.setText(" " + t.getTime().get(i) + "  ");
-            newRow.addView(time);
-            for (int j = 0; j < 6; j++) {
-                Couple couple = t.getWeeks().get(parity_num_week).getDays().get(j).getCouple().get(i);
-                TextView coupleName = new TextView(newRow.getContext());
-                coupleName.setTextSize(20);
+        for (int k = 0; k < 2; k++) {
+            for (int i = 0; i < 6; i++) {
+                TableRow newRow = new TableRow(timeTableLayout.getContext());
+                TextView time = new TextView(newRow.getContext());
+                time.setText(" " + t.getTime().get(i) + "  ");
+                newRow.addView(time);
+                for (int j = 0; j < 6; j++) {
 
-                coupleName.setPadding(10,10,10,10);
+                    final Couple couple = t.getWeeks().get(k).getDays().get(j).getCouple().get(i);
+                    TextView coupleName = new TextView(newRow.getContext());
+                    coupleName.setTextSize(20);
 
-                if (couple != null) {
-                    if (couple.getBySubgroups()) {
-                        try {
-                            String s = couple.getFirstSubgroup().getDiscipline();
-                            color_text(coupleName, couple.getFirstSubgroup());
-                            s = toSimpleName(s);
-                            s += "    ";
-                            coupleName.setText(s);
-                        } catch (IllegalObjectStateException ignored) {
-                        }
 
-                    } else {
-                        try {
-                            String s = couple.getAllGroup().getDiscipline();
-                            s = toSimpleName(s);
-                            s += "    ";
-                            coupleName.setText(s);
-                            color_text(coupleName, couple.getAllGroup());
-                        } catch (IllegalObjectStateException ignored) {
+
+                    coupleName.setPadding(10,10,20,10);
+
+                    if (couple != null) {
+                        coupleName.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                    }
+                                });
+                                builder.setItems(aboutCouple(couple), new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                    }
+                                });
+                                builder.create().show();
+                            }
+                        });
+                        String s = "";
+                        if (couple.getBySubgroups()) {
+                            try {
+                                if(couple.getFirstSubgroup() != null){
+                                    s += couple.getFirstSubgroup().getDiscipline();
+                                    s = toSimpleName(s);
+                                }else{
+                                    s += "-";
+                                }
+                                s += "/";
+                                if(couple.getSecondSubgroup() != null){
+                                    s += toSimpleName(couple.getSecondSubgroup().getDiscipline());
+                                }else {
+                                    s += "-";
+                                }
+                                color_text(coupleName, couple.getFirstSubgroup());
+                                coupleName.setText(s);
+                            } catch (IllegalObjectStateException ignored) {
+                            }
+
+                        } else {
+                            try {
+                                s = couple.getAllGroup().getDiscipline();
+                                s = toSimpleName(s);
+                                coupleName.setText(s);
+                                color_text(coupleName, couple.getAllGroup());
+                            } catch (IllegalObjectStateException ignored) {
+                            }
                         }
                     }
-                } else {
-                    coupleName.setText("    ");
+                    newRow.addView(coupleName);
                 }
-                newRow.addView(coupleName);
+                if(i == 5){
+                    newRow.setPadding(0,0,0,20);
+                }
+                timeTableLayout.addView(newRow);
             }
-            timeTableLayout.addView(newRow);
         }
     }
+
+    private String[] aboutCouple(Couple couple){
+        try {
+            String answer = "";
+            if(!couple.getBySubgroups()){
+                Lesson lesson = couple.getAllGroup();
+                answer += "Предмет: " + lesson.getDiscipline() + '\n';
+                answer += "Вид: " + lesson.getType() + '\n';
+                answer += "Преподаватель: " + lesson.getTeacher().getFullName() + '\n';
+                String info = lesson.getSubgroupsInfo();
+                if (info != null && !info.isEmpty()){
+                    answer += info;
+                }
+            }else{
+                if(couple.getFirstSubgroup() != null){
+                    Lesson lesson = couple.getFirstSubgroup();
+                    answer += "Предмет: " + lesson.getDiscipline() + '\n';
+                    answer += "Вид: " + lesson.getType() + '\n';
+                    answer += "Преподаватель: " + lesson.getTeacher().getFullName() + '\n';
+                    String info = lesson.getSubgroupsInfo();
+                    if (info != null && !info.isEmpty()){
+                        answer += info;
+                    }
+                }
+                if(couple.getSecondSubgroup() != null){
+                    Lesson lesson = couple.getSecondSubgroup();
+                    answer += "Предмет: " + lesson.getDiscipline() + '\n';
+                    answer += "Вид: " + lesson.getType() + '\n';
+                    answer += "Преподаватель: " + lesson.getTeacher().getFullName() + '\n';
+                    String info = lesson.getSubgroupsInfo();
+                    if (info != null && !info.isEmpty()){
+                        answer += info;
+                    }
+                }
+            }
+            return answer.split("\n");
+        }catch(Exception e){
+            String[] t = {"Не удалось загрузить информацию"};
+            return t;
+        }
+    }
+
 }
 
 

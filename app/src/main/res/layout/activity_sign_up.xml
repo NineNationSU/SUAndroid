@@ -48,10 +48,10 @@
                     <EditText
                         android:id="@+id/sign_up_login"
                         android:background="@drawable/border"
-                        android:layout_width="150dp"
+                        android:layout_width="160dp"
                         android:layout_height="40dp"
                         android:ems="10"
-                        android:padding="10dp"
+                        android:paddingLeft="10dp"
                         android:hint="Логин"
                         android:inputType="textPersonName" />
                     <android.support.v4.widget.Space
@@ -105,9 +105,10 @@
                         android:id="@+id/sign_up_pass"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/border"
-                        android:layout_width="150dp"
+                        android:layout_width="160dp"
                         android:layout_height="40dp"
                         android:ems="10"
+                        android:paddingLeft="10dp"
                         android:hint="Пароль"
                         android:inputType="textPassword" />
                     <android.support.v4.widget.Space
@@ -121,7 +122,7 @@
                         android:gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:inputType="date" />
 
                 </LinearLayout>
@@ -138,9 +139,10 @@
                     android:id="@+id/sign_up_phone"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/border"
-                    android:layout_width="150dp"
+                    android:layout_width="160dp"
                     android:layout_height="40dp"
                     android:ems="10"
+                    android:paddingLeft="10dp"
                     android:hint="Номер телефона"
                     />
             </LinearLayout>
@@ -194,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
-                        android:text="Лицо" />
+                        android:text="Manager" />
 
 
 

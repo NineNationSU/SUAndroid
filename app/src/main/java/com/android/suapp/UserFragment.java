@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -34,7 +35,9 @@ import static com.android.suapp.LoginActivity.APP_PREFERENCES;
 import static com.android.suapp.LoginActivity.APP_PREFERENCES_STUDENT_DATA;
 import static com.android.suapp.LoginActivity.settings;
 import static com.android.suapp.TableFragment.LESSONS_PREFERENCES;
+import static com.android.suapp.TableFragment.TIME_TABLE_PREFERENCES;
 import static com.android.suapp.TableFragment.toSimpleName;
+import static com.android.suapp.suapp.sdk.SUAppServer.loadClassmates;
 
 /**
  * Created by fokin on 10.04.2018.
@@ -55,6 +58,7 @@ public class UserFragment extends Fragment {
     private Student student;
     private String salary;
     private SharedPreferences classMates;
+    private String[] classmates_array;
     public static final String listOfClassMates = "List";
 
     @SuppressLint("StaticFieldLeak")
@@ -118,6 +122,7 @@ public class UserFragment extends Fragment {
                             textPhoneNumber.setText(student.getPhoneNumber());
                             s = student.getFirstName() + " " + student.getLastName();
                             textImage.setText(toSimpleName(s));
+                            System.out.println(salary);
                             if (salary != null) {
                                 textMoney.setText(salary);
                             } else {
@@ -136,7 +141,7 @@ public class UserFragment extends Fragment {
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lessons = getActivity().getSharedPreferences(LESSONS_PREFERENCES, Context.MODE_PRIVATE);
+                lessons = getActivity().getSharedPreferences(TIME_TABLE_PREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = lessons.edit();
                 editor1.clear();
                 sp = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
@@ -160,7 +165,7 @@ public class UserFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-
+                final Handler h1 = new Handler();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -174,14 +179,46 @@ public class UserFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                     }
                 });
-                builder.setTitle(R.string.my_classMates).setItems(R.array.students, new DialogInterface.OnClickListener() {
+                new Thread(new Runnable() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void run() {
+                        try {
+                            final String s;
+                            s = loadClassmates(student.getToken());
+                            h1.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    classmates_array = s.split("\n");
+                                    builder.setTitle(R.string.my_classMates).setItems(classmates_array, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            String phone = classmates_array[i].split(" ")[2];
+                                            dialogContactPhone(phone);
+                                        }
 
+                                        private void dialogContactPhone(String phoneNum) {
+                                            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNum, null)));
+                                        }
+                                    });
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
+                            });
+                        } catch (IOException e) {
+                            h1.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getContext(), "Не удалось загрузить список одногруппников", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                        }
                     }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                }).start();
+
+
+
+
             }
         });
 

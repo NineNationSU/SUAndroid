@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.telephony.PhoneNumberUtils;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,6 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
         female = findViewById(R.id.sex_female);
         male = findViewById(R.id.sex_male);
 
+
         sex.setOnClickedButtonPosition(new SegmentedButtonGroup.OnClickedButtonPosition() {
             @Override
             public void onClickedButtonPosition(int position) {
@@ -121,11 +124,13 @@ public class SignUpActivity extends AppCompatActivity {
         //System.out.print(token);
         student.setLogin(login.getText().toString());
         student.setPassword(password.getText().toString());
-        student.setPhoneNumber(phoneNumber.getText().toString());
+        String phone = phoneNumber.getText().toString();
 
+        if (!checkPhone(phone)) {
+            return;
+        }
 
-
-
+        student.setPhoneNumber(phone);
         myYear = date.get(Calendar.YEAR);
         myMonth = date.get(Calendar.MONTH)+1;
         myDay = date.get(Calendar.DAY_OF_MONTH);
@@ -175,14 +180,15 @@ public class SignUpActivity extends AppCompatActivity {
                     answer = SUAppServer.registerANewStudent(student);
                 } catch (Exception e) {
                     System.out.println("err");
-                    message[0] = "косяк запроса";
+                    message[0] = "Не удалось соединиться с сервером";
                     // тут формируем сообщение пользователю
                 }
                 if (answer != null){
                     final String ANSWER = answer;
                     try{
                         message[0] = "ok";
-                        if (answer.contains("error"))
+                        ServerResponse response = new Gson().fromJson(answer, ServerResponse.class);
+                        if (response.getResponse() != null)
                             throw new Exception();
                         // тут формируем сообщение пользователю
                         else{
@@ -205,7 +211,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }catch (Exception e) {
                         try {
                             error = new Gson().fromJson(answer, ServerResponse.class);
-                            message[0] = error.getErrorType();
+                            message[0] = error.getResponse();
                         } catch (Exception ex) {
                             message[0] = "Fatal Error";
                             System.out.println(message[0]);
@@ -265,4 +271,31 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private boolean checkPhone(String phone){
+        int len = 11, start = 0;
+        if(phone.length() < 11){
+            Toast.makeText(this, "Неправильный номер", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(phone.charAt(0) == '+'){
+            len++;
+            start++;
+        }
+        if(phone.charAt(start) != '7' && phone.charAt(start) != '8'){
+            Toast.makeText(this, "Неправильный номер", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(phone.length() == len){
+            for(int j = start; j < len; ++j){
+                if(phone.charAt(j) < '0' || phone.charAt(j) > '9'){
+                    Toast.makeText(this, "Неправильный номер", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+            return true;
+        }else{
+            Toast.makeText(this, "Неправильный номер", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 }

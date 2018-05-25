@@ -6,33 +6,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar2"
         style="@style/Toolbar">
-        <!--<ImageButton
-            android:id="@+id/new_message"
+
+        <ImageButton
+            android:id="@+id/new_note"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@color/colorBase"
             android:layout_gravity="right"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_new_message"/>-->
+            android:src="@drawable/ic_new_message"/>
     </android.support.v7.widget.Toolbar>
 
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/note_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout_1"
+            android:id="@+id/swipe_refresh_layout_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_all_subjects"
+                android:id="@+id/recycler_view_all_notes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </android.support.v7.widget.RecyclerView>

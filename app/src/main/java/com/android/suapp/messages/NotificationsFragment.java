@@ -1,4 +1,4 @@
-package com.android.suapp;
+package com.android.suapp.messages;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -21,14 +21,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.suapp.R;
 import com.android.suapp.suapp.sdk.SUAppServer;
 import com.android.suapp.suapp.server.database.objects.Message;
 import com.android.suapp.suapp.server.database.objects.Student;
 import com.android.suapp.suapp.server.database.objects.StudyGroup;
+import com.android.suapp.suapp.server.responses.ServerResponse;
 import com.android.suapp.suapp.server.utility.MessagesListWrapper;
 import com.google.gson.Gson;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.android.suapp.LoginActivity.APP_PREFERENCES;
@@ -48,6 +52,10 @@ public class NotificationsFragment extends Fragment {
     private String sourceData;
     public static int messageCount;
     public static List<Message> list;
+    private SharedPreferences sp;
+    final Handler h = new Handler();
+    public final static String APP_MESSAGES_PREFERENCES = "Data_of_messages";
+    public final static String APP_MESSAGE_PREFERENCES = "Message_data";
 
     @SuppressLint("StaticFieldLeak")
     private static NotificationsFragment instance;
@@ -59,21 +67,32 @@ public class NotificationsFragment extends Fragment {
     }
 
     private void getMessages(){
+        try{
+            sp = getActivity().getSharedPreferences(APP_MESSAGES_PREFERENCES, Context.MODE_PRIVATE);
+            String buffer = SUAppServer.getMessages(student.getToken());
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(APP_MESSAGE_PREFERENCES, buffer);
+            editor.apply();
+            MessagesListWrapper listWrapper = new Gson().fromJson(buffer, MessagesListWrapper.class);
+            messageCount = listWrapper.getList().size();
+            list = listWrapper.getList();
+            System.out.println(messageCount);
+        } catch (ConnectException e){
+            String buffer = sp.getString(APP_MESSAGE_PREFERENCES, null);
+            MessagesListWrapper listWrapper = new Gson().fromJson(buffer, MessagesListWrapper.class);
+            messageCount = listWrapper.getList().size();
+            list = listWrapper.getList();
+        }
+        catch (final Exception e) {
+            e.printStackTrace();
+            h.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    String listOfMessage = SUAppServer.getMessages(student.getToken());
-                    MessagesListWrapper listWrapper = new Gson().fromJson(listOfMessage, MessagesListWrapper.class);
-                    messageCount = listWrapper.getList().size();
-                    list = listWrapper.getList();
-                    System.out.println(messageCount);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        }).start();
+            });
+        }
     }
 
     public NotificationsFragment() {
@@ -94,18 +113,25 @@ public class NotificationsFragment extends Fragment {
                 catch (Exception e){
             Toast.makeText(getContext(), "Не удалось загрузить данные о пользователе", Toast.LENGTH_SHORT).show();
         }
-        getMessages();
+
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view_all_messages);
-        new Handler().postDelayed(new Runnable() {
+
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    recyclerView.setAdapter(new RecyclerViewAdapter(NotificationsFragment.this.getContext(), CardModel.getObjectList(list)));
-                    swipeRefreshLayout.setRefreshing(false);
-                }catch (Exception ignored){}
+                getMessages();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerView.setAdapter(new RecyclerViewAdapter(NotificationsFragment.this.getContext(), CardModel.getObjectList(list)));
+                            swipeRefreshLayout.setRefreshing(false);
+                        }catch (Exception ignored){}
+                    }
+                }, 100);
             }
-        }, 200);
+        }).start();
 
 
 
@@ -127,7 +153,7 @@ public class NotificationsFragment extends Fragment {
                                 recyclerView.setAdapter(new RecyclerViewAdapter(NotificationsFragment.this.getContext(), CardModel.getObjectList(list)));
                                 swipeRefreshLayout.setRefreshing(false);
                             }
-                        }, 1500);
+                        }, 100);
                     }
                 }).start();
             }
@@ -166,10 +192,15 @@ public class NotificationsFragment extends Fragment {
                                                             new Message().setSenderId(student.getId()).setBody(messageBody.getText().toString()),
                                                             new StudyGroup().setNumber(student.getGroupNumber()),
                                                             student.getToken());
+                                                    final ServerResponse response = new Gson().fromJson(message, ServerResponse.class);
                                                     h.post(new Runnable() {
                                                         @Override
                                                         public void run() {
-                                                            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                                            if(response != null){
+                                                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                                            }else{
+                                                                Toast.makeText(getContext(), "Сервер недоступен", Toast.LENGTH_SHORT).show();
+                                                            }
                                                             listener.onRefresh();
                                                         }
                                                     });
@@ -199,63 +230,6 @@ public class NotificationsFragment extends Fragment {
 
         return view;
     }
-/*
-    private class RecycleViewHolder extends RecyclerView.ViewHolder{
-        private CardView mCardView;
-        private TextView textIcon;
-        private TextView textUserName;
-        private TextView textMessage;
-        public RecycleViewHolder(View itemView){
-            super(itemView);
-        }
-
-        public RecycleViewHolder(LayoutInflater inflater, ViewGroup container){
-            super(inflater.inflate(R.layout.activity_cardview, container, false));
-
-            mCardView = itemView.findViewById(R.id.card_view);
-            textIcon = itemView.findViewById(R.id.text_view_user_alphabet);
-            textUserName = itemView.findViewById(R.id.text_view_username);
-            textMessage = itemView.findViewById(R.id.text_message);
-        }
-
-        public RecycleViewHolder(LayoutInflater inflater, ViewGroup container, CardView mCardView,
-                                 TextView textIcon, TextView textUserName, TextView textMessage){
-            super(inflater.inflate(R.layout.activity_cardview, container, false));
-            this.mCardView = mCardView;
-            this.textIcon = textIcon;
-            this.textUserName = textUserName;
-            this.textMessage = textMessage;
-
-        }
-    }
-
-    private class RecyclerViewAdapter extends RecyclerView.Adapter<RecycleViewHolder>{
-
-        private List<CardModel> objectList;
-        private LayoutInflater inflater;
-
-        public RecyclerViewAdapter(Context context, List<CardModel> objectList) {
-            inflater = LayoutInflater.from(context);
-            this.objectList = objectList;
-        }
-
-        @Override
-        public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new RecycleViewHolder(inflater, parent);
-        }
-
-        @Override
-        public void onBindViewHolder(RecycleViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 5;//NotificationsFragment.messageCount;
-        }
-    }
-*/
 
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>{
 
@@ -287,7 +261,7 @@ public class NotificationsFragment extends Fragment {
             holder.setData(current, position);
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder {
+        public class MyViewHolder extends RecyclerView.ViewHolder {
             private CardView mCardView;
             private TextView textIcon;
             private TextView textUserName;
