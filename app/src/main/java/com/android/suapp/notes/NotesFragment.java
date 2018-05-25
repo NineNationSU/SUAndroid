@@ -49,7 +49,6 @@ public class NotesFragment extends Fragment{
     private Student student;
     private SharedPreferences sp;
     final Handler h = new Handler();
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     @SuppressLint("StaticFieldLeak")
     private static NotesFragment instance;
@@ -92,7 +91,6 @@ public class NotesFragment extends Fragment{
             h.post(new Runnable() {
                 @Override
                 public void run() {
-                    swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(getContext(), "Не удалось загрузить данные предметов", Toast.LENGTH_SHORT).show();
 
                 }
@@ -105,8 +103,6 @@ public class NotesFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout_1);
-        swipeRefreshLayout.setRefreshing(false);
 
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view_all_subjects);
         new Thread(new Runnable() {
@@ -121,7 +117,6 @@ public class NotesFragment extends Fragment{
                         try {
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(new RecyclerViewAdapter(NotesFragment.this.getContext(), CardModelDisciplines.getObjectList(list)));
-                            swipeRefreshLayout.setRefreshing(false);
                         }catch (NullPointerException e){}
                     }
                 }, 100);

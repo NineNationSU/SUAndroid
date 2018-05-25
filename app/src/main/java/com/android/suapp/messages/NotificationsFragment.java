@@ -197,7 +197,7 @@ public class NotificationsFragment extends Fragment {
                                                         @Override
                                                         public void run() {
                                                             if(response != null){
-                                                                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(getContext(), response.getResponse(), Toast.LENGTH_SHORT).show();
                                                             }else{
                                                                 Toast.makeText(getContext(), "Сервер недоступен", Toast.LENGTH_SHORT).show();
                                                             }

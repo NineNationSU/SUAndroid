@@ -1,6 +1,7 @@
 package com.android.suapp;
 
 import android.app.FragmentManager;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -15,20 +16,22 @@ import com.android.suapp.notes.NotesFragment;
 
 public class MenuActivity extends AppCompatActivity {
 
+    private Fragment selectedFragment = null;
 
-   @Override
+
+    @Override
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_menu);
+       setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
 
-
-       BottomNavigationView mBottomNavigationItemView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView mBottomNavigationItemView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
        mBottomNavigationItemView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               Fragment selectedFragment;
+
                switch (item.getItemId()) {
                    case R.id.nav_user:
                        selectedFragment = UserFragment.newInstance();
@@ -51,10 +54,12 @@ public class MenuActivity extends AppCompatActivity {
                return true;
            }
        });
+       if(selectedFragment == null){
+           FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+           transaction.replace(R.id.fragment_container, TableFragment.newInstance());
+           transaction.commit();
+       }
 
-       FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-       transaction.replace(R.id.fragment_container, TableFragment.newInstance());
-       transaction.commit();
    }
 
 }
