@@ -21,14 +21,15 @@ public class Note {
     @Expose
     private String text;
 
+    @Expose
+    private String start;
+
+    @Expose
+    private String deadline;
+
 
     public Note(){}
 
-    public Note(ResultSet set) throws SQLException {
-        group = new StudyGroup().setNumber(set.getString("group_number"));
-        lesson = set.getString("lesson");
-        text = set.getString("text");
-    }
 
     public Integer getId() {
         return id;
@@ -63,6 +64,24 @@ public class Note {
 
     public Note setText(String text) {
         this.text = text;
+        return this;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public Note setStart(String start) {
+        this.start = start;
+        return this;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public Note setDeadline(String deadline) {
+        this.deadline = deadline;
         return this;
     }
 

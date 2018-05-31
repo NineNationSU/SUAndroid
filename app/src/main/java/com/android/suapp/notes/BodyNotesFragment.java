@@ -2,12 +2,14 @@ package com.android.suapp.notes;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -15,17 +17,20 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.support.v7.widget.Toolbar;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.suapp.R;
+import com.android.suapp.SignUpActivity;
 import com.android.suapp.messages.CardModel;
 import com.android.suapp.messages.NotificationsFragment;
 import com.android.suapp.suapp.sdk.SUAppServer;
@@ -39,7 +44,10 @@ import com.android.suapp.suapp.server.utility.NoteListWrapper;
 import com.google.gson.Gson;
 
 import java.net.ConnectException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.android.suapp.LoginActivity.APP_PREFERENCES;
@@ -54,12 +62,24 @@ public class BodyNotesFragment extends Fragment {
     private ImageButton newNote;
     private SharedPreferences sp;
     private String sourceData;
+    private TextView noteDeadline;
     private Context mContext;
     private Student student;
     private String discipline;
+    private static String dateDeadLine;
     private Toolbar toolbar;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+
+
+
+
+    Integer  myYear = null;
+    Integer myMonth = null;
+    Integer myDay = null;
+
     final Handler h = new Handler();
+    Calendar dateline = Calendar.getInstance();
 
     private static BodyNotesFragment instance;
     public static BodyNotesFragment newInstance() {
@@ -91,7 +111,7 @@ public class BodyNotesFragment extends Fragment {
                 h.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(BodyNotesFragment.this.getContext(), "Заметок нет", Toast.LENGTH_SHORT);
+                        Toast.makeText(BodyNotesFragment.this.getContext(), "Заметок нет", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -172,9 +192,19 @@ public class BodyNotesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
                 LayoutInflater inflater = getActivity().getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.dialog_note, null);
+                final String noteData;
+                noteDeadline = dialogView.findViewById(R.id.note_text_data_end);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                noteData = simpleDateFormat.format(new Date());
+                noteDeadline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setDate(v);
+                    }
+                });
+                setInitialDateTime();
                 builder.setView(dialogView)
                         .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
                                     @Override
@@ -182,12 +212,26 @@ public class BodyNotesFragment extends Fragment {
                                         final EditText noteBody = dialogView.findViewById(R.id.edit_text_note);
                                         final Handler h = new Handler();
                                         swipeRefreshLayout.setRefreshing(true);
+                                        myYear = dateline.get(Calendar.YEAR);
+                                        myMonth = dateline.get(Calendar.MONTH)+1;
+                                        myDay = dateline.get(Calendar.DAY_OF_MONTH);
+                                        String mstr = "";
+                                        String dstr = "";
+                                        if(myMonth < 10){
+                                            mstr = "0";
+                                        }
+                                        if(myDay < 10){
+                                            dstr = "0";
+                                        }
+                                        dateDeadLine = dstr + myDay + "/" + mstr + myMonth + "/"  + myYear;
                                         new Thread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 try {
                                                     final String message = SUAppServer.addNote(
                                                             new Note()
+                                                                    .setDeadline(dateDeadLine)
+                                                                    .setStart(noteData)
                                                                     .setText(noteBody.getText().toString())
                                                                     .setLesson(discipline),
                                                             student.getToken());
@@ -270,6 +314,8 @@ public class BodyNotesFragment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             private CardView mCardView;
             private TextView noteBody;
+            private TextView noteData;
+            private TextView noteDeadline;
             private int position;
             private CardModelNote currentObject;
 
@@ -277,10 +323,14 @@ public class BodyNotesFragment extends Fragment {
                 super(itemView);
                 mCardView = itemView.findViewById(R.id.card_view_note);
                 noteBody = itemView.findViewById(R.id.text_note);
+                noteData = itemView.findViewById(R.id.note_data);
+                noteDeadline = itemView.findViewById(R.id.note_data_end);
             }
 
             public void setData(CardModelNote currentObject, int position) {
                 this.noteBody.setText(currentObject.getNoteBody());
+                this.noteData.setText(currentObject.getNoteData());
+                this.noteDeadline.setText(currentObject.getNoteDeadline());
                 this.position = position;
                 this.currentObject = currentObject;
             }
@@ -302,6 +352,30 @@ public class BodyNotesFragment extends Fragment {
     }
 
 
+    private void setInitialDateTime() {
+
+        noteDeadline.setText(DateUtils.formatDateTime(getContext(),
+                dateline.getTimeInMillis(),
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+    }
+
+    DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateline.set(Calendar.YEAR, year);
+            dateline.set(Calendar.MONTH, monthOfYear);
+            dateline.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            setInitialDateTime();
+        }
+    };
+
+
+    public void setDate(View v) {
+        new DatePickerDialog(getContext(), d,
+                dateline.get(Calendar.YEAR),
+                dateline.get(Calendar.MONTH),
+                dateline.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
 }
 
 
